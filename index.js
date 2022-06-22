@@ -52,18 +52,17 @@ if (process.env.ALLOW_SYNC === "true") {
 
 // ---------------------------------------------------------------------------
 
+// Import Routes
+const categoryRoute = require("./src/routes/s_category.routes");
+const subjectRoute = require("./src/routes/s_subject.routes");
 
 
 
 
 
-
-
-
-
-
-
-
+// Routes (For Authentication)
+app.use(`${process.env.API_BASEURL}/category`, categoryRoute);
+app.use(`${process.env.API_BASEURL}/subject`, subjectRoute);
 
 // ---------------------------------------------------------------------------
 
