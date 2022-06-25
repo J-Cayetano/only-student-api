@@ -1,11 +1,12 @@
 // Import Packages
 const express = require('express')
+const cors = require('cors');
 const dotenv = require("dotenv");
 const db = require("./src/models");
 const bodyParser = require('body-parser');
-const cors = require('cors');
+const jwt = require("jsonwebtoken");
 
-// Initialize Packages
+// Initialize Packages & Functions'
 const app = express()
 
 // Environment Configuration
@@ -45,13 +46,37 @@ if (process.env.ALLOW_SYNC === "true") {
     }
 }
 
+// Authentication Function
+const authenticateToken = (req, res, next) => {
+
+    const authHeader = req.headers["authorization"];
+
+    const token = authHeader && authHeader.split(" ")[1];
+
+    if (token == null) return res.sendStatus(401);
+
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+
+        console.log(user, err);
+        if (err) return res.sendStatus(403);
+        req.user = user;
+        next();
+    });
+};
+
+
 // --------------------------
 
+// Import Routes
+const loginRoute = require("./src/routes/login.routes");
+const userRoute = require("./src/routes/user.routes");
 
 
 
 
-
+// Routes (For Authentication)
+app.use(`${process.env.API_BASEURL}/login`, loginRoute);
+app.use(`${process.env.API_BASEURL}/user`, authenticateToken, userRoute);
 
 // --------------------------
 
