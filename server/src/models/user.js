@@ -17,11 +17,16 @@ const PROTECTED_ATTR = ["user_password"];
 
 module.exports = (sequelize, DataTypes) => {
   class user extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+
+    toJSON() {
+      const attr = { ...this.get() };
+
+      for (const x of PROTECTED_ATTR) {
+        delete attr[x];
+      }
+      return attr;
+    }
+
     static associate(models) {
 
       this.belongsTo(user, {
@@ -39,15 +44,26 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "user_deletedBy",
       });
 
-    }
+      this.belongsTo(models.s_level, {
+        as: "studentLevel",
+        foreignKey: {
+          name: 'user_leve_id',
+          allowNull: true
+        },
+        onDelete: 'RESTRICT',
+        onUpdate: 'NO ACTION'
+      });
 
-    toJSON() {
-      const attr = { ...this.get() };
+      this.belongsTo(models.s_type, {
+        as: "tutorType",
+        foreignKey: {
+          name: 'user_type_id',
+          allowNull: true
+        },
+        onDelete: 'RESTRICT',
+        onUpdate: 'NO ACTION'
+      });
 
-      for (const x of PROTECTED_ATTR) {
-        delete attr[x];
-      }
-      return attr;
     }
   }
 
@@ -59,12 +75,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     user_leve_id: {
       type: DataTypes.UUID,
-      allowNull: true,
-
+      allowNull: true
     },
     user_type_id: {
       type: DataTypes.UUID,
-      allowNull: true,
+      allowNull: true
     },
     user_access: {
       type: DataTypes.STRING,
