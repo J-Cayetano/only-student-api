@@ -5,6 +5,8 @@ const dotenv = require("dotenv");
 const db = require("./src/models");
 const bodyParser = require('body-parser');
 const jwt = require("jsonwebtoken");
+const ejs = require('ejs');
+const path = require('path');
 const session = require("express-session");
 
 // Initialize Packages & Functions'
@@ -24,6 +26,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
+
 
 // Connecting to Database & Synching
 db.sequelize
@@ -77,13 +80,20 @@ const loginRoute = require("./src/routes/login.routes");
 const userRoute = require("./src/routes/user.routes");
 
 
-app.get("/", (req, res) => {
-    console.log(req.session);
-    res.send("Hello");
-})
+// View Engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, './src/views'));
+app.use(express.static('./src/public'));
+
+// View Engine Route
+app.get(`${process.env.API_BASEURL}/`, (req, res, next) => {
+    res.render('index');
+});
+
+// Routes for Log In
+app.use(`${process.env.API_BASEURL}/login`, loginRoute);
 
 // Routes (For Authentication)
-app.use(`${process.env.API_BASEURL}/login`, loginRoute);
 app.use(`${process.env.API_BASEURL}/user`, authenticateToken, userRoute);
 
 // --------------------------
