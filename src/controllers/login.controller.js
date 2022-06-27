@@ -14,6 +14,13 @@ const generateToken = (data) => {
     return jwt.sign(data, process.env.TOKEN_SECRET, { expiresIn: "7200s" });
 };
 
+
+
+exports.index = (req, res) => {
+    res.render('pages/login');
+};
+
+
 exports.login = (req, res) => {
 
     if (String(req.body.user_email) === "" || String(req.body.user_password) === "") {
@@ -27,31 +34,28 @@ exports.login = (req, res) => {
         User.findOne({ where: { user_email: req.body.user_email, user_isActive: true } })
             .then((data) => {
                 if (data) {
-                    bcrypt.compare(
-                        req.body.user_password,
-                        data.user_password,
-                        function (err, result) {
-
-                            if (result) {
-                                res.send({
-                                    error: false,
-                                    data: data,
-                                    token: generateToken({
-                                        id: data.user_id,
-                                        name: data.user_fullName,
-                                        email: data.user_email,
-                                    }),
-                                    message: [process.env.SUCCESS_RETRIEVED],
-                                });
-                            } else {
-                                // if not equal
-                                res.status(500).send({
-                                    error: true,
-                                    data: [],
-                                    message: ["Invalid username and Password."],
-                                });
-                            }
+                    bcrypt.compare(req.body.user_password, data.user_password, function (err, result) {
+                        if (result) {
+                            res.send({
+                                error: false,
+                                data: data,
+                                token: generateToken({
+                                    id: data.user_id,
+                                    name: data.user_fullName,
+                                    email: data.user_email,
+                                    access: data.user_access
+                                }),
+                                message: [process.env.SUCCESS_RETRIEVED],
+                            });
+                        } else {
+                            // if not equal
+                            res.status(500).send({
+                                error: true,
+                                data: [],
+                                message: ["Invalid username and Password."],
+                            });
                         }
+                    }
                     );
                 } else {
                     res.status(500).send({
@@ -71,3 +75,4 @@ exports.login = (req, res) => {
             });
     };
 };
+
