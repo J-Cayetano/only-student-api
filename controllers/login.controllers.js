@@ -1,5 +1,5 @@
 // Import Packages
-const db = require("../models");
+const db = require("../src/models");
 const User = db.user;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -12,12 +12,13 @@ dotenv.config();
 
 const generateToken = (data) => {
     return jwt.sign(data, process.env.TOKEN_SECRET, { expiresIn: "7200s" });
+    // , { expiresIn: "7200s" }
 };
 
 
 
 exports.index = (req, res) => {
-    res.render('pages/login');
+    res.render('pages/auth/signin');
 };
 
 

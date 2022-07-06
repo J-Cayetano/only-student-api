@@ -1,6 +1,7 @@
 // Import Packages
-const db = require("../models");
+const db = require("../src/models");
 const User = db.user;
+const Level = db.s_level;
 const datatable = require(`sequelize-datatables`);
 const { Op, where } = require("sequelize");
 
@@ -11,6 +12,19 @@ dotenv.config();
 
 // -----------------------------------------
 
+// Sign Up Render
+exports.index = (req, res) => {
+
+    Level.findAll({ where: { leve_deletedAt: null, leve_deletedBy: null } }).then((data) => {
+        res.render('pages/auth/signup', { levels: data });
+    }).catch((err) => {
+        res.status(500).send({
+            error: true,
+            data: [],
+            message: err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG
+        });
+    });
+};
 
 // Datatable
 exports.findDataTable = (req, res) => {
@@ -52,7 +66,7 @@ exports.findDataTable = (req, res) => {
 exports.create = async (req, res) => {
     req.body.user_fullName = "";
 
-    // req.body.user_createdBy = req.user.user_id;
+    req.body.user_createdBy = req.user.id;
 
     User.create(req.body)
         .then((data) => {
@@ -116,8 +130,9 @@ exports.findOne = (req, res) => {
 exports.update = async (req, res) => {
     const id = req.params.id;
     req.body.user_fullName = "";
+    req.body.user_updatedBy = req.user.id;
 
-    await User.update(req.body, { where: { user_id: id, user_isActive: 1 }, individualHooks: true })
+    await User.update(req.body, { where: { user_id: id, user_isActive: 1 }, individualHooks: true, include: ["updatedBy"] })
         .then((data) => {
             if (data) {
                 User.findByPk(id)
@@ -149,33 +164,34 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
     const id = req.params.id;
     const body = { user_isActive: 0 };
+    req.body.user_deletedBy = req.user.id;
 
-    await User.destroy({ where: { user_id: id } });
-
-    User.update(body, { where: { user_id: id } })
-        .then((data) => {
-            if (data) {
-                User.findByPk(id)
-                    .then((data) => {
-                        res.send({
-                            error: false,
-                            data: data,
-                            message: [process.env.SUCCESS_DELETE],
+    await User.destroy({ where: { user_id: id }, include: ["deletedBy"] }).then((data) => {
+        User.update(body, { where: { user_id: id } })
+            .then((data) => {
+                if (data) {
+                    User.findByPk(id)
+                        .then((data) => {
+                            res.send({
+                                error: false,
+                                data: data,
+                                message: [process.env.SUCCESS_DELETE],
+                            });
                         });
+                } else {
+                    res.status(500).send({
+                        error: true,
+                        data: [],
+                        message: ["Error in deleting record."]
                     });
-            } else {
+                }
+            })
+            .catch((err) => {
                 res.status(500).send({
                     error: true,
                     data: [],
-                    message: ["Error in deleting record."]
+                    message: err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG
                 });
-            }
-        })
-        .catch((err) => {
-            res.status(500).send({
-                error: true,
-                data: [],
-                message: err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG
             });
-        });
+    });
 };

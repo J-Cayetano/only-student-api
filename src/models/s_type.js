@@ -22,6 +22,20 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
 
+      this.belongsTo(models.user, {
+        as: "createdBy",
+        foreignKey: "type_createdBy",
+      });
+
+      this.belongsTo(models.user, {
+        as: "updatedBy",
+        foreignKey: "type_updatedBy",
+      });
+
+      this.belongsTo(models.user, {
+        as: "deletedBy",
+        foreignKey: "type_deletedBy",
+      });
     }
   }
 

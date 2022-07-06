@@ -13,6 +13,20 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
 
+      this.belongsTo(models.user, {
+        as: "createdBy",
+        foreignKey: "leve_createdBy",
+      });
+
+      this.belongsTo(models.user, {
+        as: "updatedBy",
+        foreignKey: "leve_updatedBy",
+      });
+
+      this.belongsTo(models.user, {
+        as: "deletedBy",
+        foreignKey: "leve_deletedBy",
+      });
     }
 
     toJSON() {
