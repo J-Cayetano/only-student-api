@@ -1,6 +1,6 @@
 // Import Packages
 const db = require("../models");
-const Level = db.s_level;
+const Category = db.s_category;
 const datatable = require(`sequelize-datatables`);
 const { Op, where } = require("sequelize");
 
@@ -19,7 +19,7 @@ exports.findDataTable = (req, res) => {
         draw: "1",
         columns: [
             {
-                data: "leve_name",
+                data: "cate_name",
                 name: "",
                 searchable: "true",
                 orderable: "true",
@@ -43,7 +43,7 @@ exports.findDataTable = (req, res) => {
         },
         _: "1478912938246",
     };
-    datatable(Level, req.body).then((result) => {
+    datatable(Category, req.body).then((result) => {
         res.json(result);
     });
 };
@@ -51,15 +51,15 @@ exports.findDataTable = (req, res) => {
 // Create and Save an Instance
 exports.create = async (req, res) => {
 
-    req.body.leve_createdBy = req.user.id;
+    req.body.cate_createdBy = req.user.id;
 
-    Level.create(req.body)
+    Category.create(req.body)
         .then((data) => {
-            Level.findByPk(data.leve_id, { include: ["createdBy"] }).then((result) => {
+            Category.findByPk(data.cate_id, { include: ["createdBy"] }).then((result) => {
                 res.send({
                     error: false,
                     data: result,
-                    message: ["Level is created successfully."],
+                    message: ["Category is created successfully."],
                 });
             });
         })
@@ -75,7 +75,7 @@ exports.create = async (req, res) => {
 // Retrieve all Instances
 exports.findAll = async (req, res) => {
 
-    Level.findAll({ where: { leve_deletedAt: null, leve_deletedBy: null } }).then((data) => {
+    Category.findAll({ where: { cate_deletedAt: null, cate_deletedBy: null } }).then((data) => {
         res.send({
             error: false,
             data: data,
@@ -94,7 +94,7 @@ exports.findAll = async (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Level.findByPk(id)
+    Category.findByPk(id)
         .then((data) => {
             res.send({
                 error: false,
@@ -114,12 +114,12 @@ exports.findOne = (req, res) => {
 // Update an Instance
 exports.update = async (req, res) => {
     const id = req.params.id;
-    req.body.leve_updatedBy = req.user.id;
+    req.body.cate_updatedBy = req.user.id;
 
-    await Level.update(req.body, { where: { leve_id: id }, include: ["updatedBy"] })
+    await Category.update(req.body, { where: { cate_id: id }, include: ["updatedBy"] })
         .then((data) => {
             if (data) {
-                Level.findByPk(id)
+                Category.findByPk(id)
                     .then((data) => {
                         res.send({
                             error: false,
@@ -147,13 +147,13 @@ exports.update = async (req, res) => {
 // Delete an Instance
 exports.delete = async (req, res) => {
     const id = req.params.id;
-    req.body.leve_deletedBy = req.user.id;
+    req.body.cate_deletedBy = req.user.id;
 
-    await Level.destroy({ where: { leve_id: id } }).then((data) => {
-        Level.update(body, { where: { leve_id: id } })
+    await Category.destroy({ where: { cate_id: id } }).then((data) => {
+        Category.update(body, { where: { cate_id: id } })
             .then((data) => {
                 if (data) {
-                    Level.findByPk(id)
+                    Category.findByPk(id)
                         .then((data) => {
                             res.send({
                                 error: false,

@@ -12,12 +12,13 @@ dotenv.config();
 
 const generateToken = (data) => {
     return jwt.sign(data, process.env.TOKEN_SECRET, { expiresIn: "7200s" });
+    // , { expiresIn: "7200s" }
 };
 
 
 
 exports.index = (req, res) => {
-    res.render('pages/login');
+    res.render('pages/auth/signin');
 };
 
 

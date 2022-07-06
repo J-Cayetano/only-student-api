@@ -27,7 +27,6 @@ app.use(session({
     saveUninitialized: false
 }));
 
-
 // Connecting to Database & Synching
 db.sequelize
     .authenticate()
@@ -68,6 +67,11 @@ const authenticateToken = (req, res, next) => {
         console.log(user, err);
         if (err) return res.sendStatus(403);
         req.user = user;
+        // if (req.user.access === "admin") {
+        //     next();
+        // } else {
+        //     return res.sendStatus(403);
+        // }
         next();
     });
 };
@@ -78,7 +82,9 @@ const authenticateToken = (req, res, next) => {
 // Import Routes
 const loginRoute = require("./src/routes/login.routes");
 const userRoute = require("./src/routes/user.routes");
-
+const signupRoute = require("./src/routes/signup.routes");
+// Import Routes - Setups
+const levelRoute = require("./src/routes/s_level.routes");
 
 // View Engine
 app.set('view engine', 'ejs');
@@ -90,11 +96,14 @@ app.get(`${process.env.API_BASEURL}/`, (req, res, next) => {
     res.render('index');
 });
 
-// Routes for Log In
+// Routes for Log In & Sign Up
 app.use(`${process.env.API_BASEURL}/login`, loginRoute);
-
+app.use(`${process.env.API_BASEURL}/signup`, signupRoute);
 // Routes (For Authentication)
 app.use(`${process.env.API_BASEURL}/user`, authenticateToken, userRoute);
+// Routes for Setups (For Authentication)
+app.use(`${process.env.API_BASEURL}/level`, authenticateToken, levelRoute);
+
 
 // --------------------------
 
