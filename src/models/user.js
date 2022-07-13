@@ -16,6 +16,7 @@ const PROTECTED_ATTR = ["user_password"];
 // -----------------------------------------------
 
 module.exports = (sequelize, DataTypes) => {
+
   class user extends Model {
 
     toJSON() {
@@ -29,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
 
+      // User -> created, updated, deleted
       this.belongsTo(user, {
         as: "createdBy",
         foreignKey: "user_createdBy",
@@ -44,21 +46,50 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "user_deletedBy",
       });
 
-      this.belongsTo(models.s_level, {
-        as: "studentLevel",
+      // -------------------------------
+
+      this.belongsToMany(models.s_requirement, {
+        through: models.t_tutor_requirement,
+        as: "userRequirement",
+        foreignKey: 'tutr_tutor_id',
+        otherKey: 'tutr_requ_id'
+      });
+
+      this.hasMany(models.t_tutor_requirement, {
+        as: "evaluatorOfRequirement",
         foreignKey: {
-          name: 'user_leve_id',
-          allowNull: true
+          name: 'tutr_evaluator_id',
+          allowNull: false
         },
         onDelete: 'RESTRICT',
         onUpdate: 'NO ACTION'
       });
 
-      this.belongsTo(models.s_type, {
-        as: "tutorType",
+      this.hasMany(models.t_class, {
+        as: "tutorClass",
         foreignKey: {
-          name: 'user_type_id',
-          allowNull: true
+          name: 'class_tutor_id',
+          allowNull: false
+        },
+        onDelete: 'RESTRICT',
+        onUpdate: 'NO ACTION'
+      });
+
+      this.hasMany(models.t_class, {
+        as: "studentClass",
+        foreignKey: {
+          name: 'class_student_id',
+          allowNull: false
+        },
+        onDelete: 'RESTRICT',
+        onUpdate: 'NO ACTION'
+      });
+
+      this.hasMany(models.r_feedback, {
+        as: "studentFeedback",
+        foreignKey: {
+          name: 'feed_student_id',
+          allowNull: false
         },
         onDelete: 'RESTRICT',
         onUpdate: 'NO ACTION'
@@ -75,11 +106,17 @@ module.exports = (sequelize, DataTypes) => {
     },
     user_leve_id: {
       type: DataTypes.UUID,
-      allowNull: true
+      references: {
+        model: sequelize.s_level,
+        key: "leve_id",
+      }
     },
     user_type_id: {
       type: DataTypes.UUID,
-      allowNull: true
+      references: {
+        model: sequelize.s_type,
+        key: "type_id",
+      }
     },
     user_access: {
       type: DataTypes.STRING,
@@ -95,7 +132,7 @@ module.exports = (sequelize, DataTypes) => {
     user_email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: "email",
       validate: {
         isEmail: true,
         notEmpty: true
@@ -123,7 +160,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     user_middleName: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
+      validate: {
+        notEmpty: { msg: "Last Name should not be empty." }
+      }
     },
     user_lastName: {
       type: DataTypes.STRING,
@@ -145,6 +185,14 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         isNumeric: true,
         len: [11, 11]
+      }
+    },
+    user_profilePhoto: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      get() {
+        const rawValue = this.getDataValue("user_profilePhoto");
+        return rawValue ? "http://localhost:3600/public/" + rawValue : null;
       }
     },
     user_bio: {
@@ -188,6 +236,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: "user_updatedAt",
     paranoid: true,
     deletedAt: "user_deletedAt",
+    indexes: [{ unique: true, fields: ["user_email"] }],
     hooks: {
       beforeCreate: async (user) => {
         if (user.user_password) {

@@ -12,18 +12,20 @@ dotenv.config();
 
 const generateToken = (data) => {
     return jwt.sign(data, process.env.TOKEN_SECRET, { expiresIn: "7200s" });
+    // , { expiresIn: "7200s" }
 };
 
 
-
+// Login Page
 exports.index = (req, res) => {
-    res.render('pages/login');
+    res.render('authentication/login');
 };
 
 
 exports.login = (req, res) => {
 
-    if (String(req.body.user_email) === "" || String(req.body.user_password) === "") {
+
+    if (String(req.body.email) === "" || String(req.body.password) === "") {
         res.status(500).send({
             error: true,
             data: [],
@@ -31,10 +33,10 @@ exports.login = (req, res) => {
         });
     } else {
 
-        User.findOne({ where: { user_email: req.body.user_email, user_isActive: true } })
+        User.findOne({ where: { user_email: req.body.email, user_isActive: true } })
             .then((data) => {
                 if (data) {
-                    bcrypt.compare(req.body.user_password, data.user_password, function (err, result) {
+                    bcrypt.compare(req.body.password, data.user_password, function (err, result) {
                         if (result) {
                             res.send({
                                 error: false,

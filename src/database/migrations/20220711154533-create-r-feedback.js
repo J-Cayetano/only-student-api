@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      feed_id: {
+      attr_id: {
         type: Sequelize.UUID
       },
       createdAt: {

@@ -22,20 +22,28 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
 
-      this.belongsTo(models.s_level, {
-        as: "subjectLevel",
-        foreignKey: {
-          name: "subj_leve_id",
-          allowNull: false
-        },
-        onDelete: 'RESTRICT',
-        onUpdate: 'NO ACTION'
+      // User -> created, updated, deleted
+      this.belongsTo(models.user, {
+        as: "createdBy",
+        foreignKey: "subj_createdBy",
       });
 
-      this.belongsTo(models.s_category, {
-        as: "subjectCategory",
+      this.belongsTo(models.user, {
+        as: "updatedBy",
+        foreignKey: "subj_updatedBy",
+      });
+
+      this.belongsTo(models.user, {
+        as: "deletedBy",
+        foreignKey: "subj_deletedBy",
+      });
+
+      // --------------------------
+
+      this.hasMany(models.t_class, {
+        as: "subjectClass",
         foreignKey: {
-          name: "subj_cate_id",
+          name: 'class_subj_id',
           allowNull: false
         },
         onDelete: 'RESTRICT',
@@ -52,10 +60,18 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4
     },
     subj_leve_id: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.s_level,
+        key: "leve_id",
+      }
     },
     subj_cate_id: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.s_category,
+        key: "cate_id",
+      }
     },
     subj_name: {
       type: DataTypes.STRING,
@@ -66,17 +82,29 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     subj_description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true
     },
     subj_createdBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     },
     subj_updatedBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     },
     subj_deletedBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     }
   }, {
     sequelize,

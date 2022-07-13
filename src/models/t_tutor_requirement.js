@@ -9,7 +9,7 @@ const PROTECTED_ATTR = [""];
 // -----------------------------------------
 
 module.exports = (sequelize, DataTypes) => {
-  class s_tutor_requirement extends Model {
+  class t_tutor_requirement extends Model {
 
     toJSON() {
       const attr = { ...this.get() };
@@ -22,39 +22,43 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
 
+
+      // User -> created, updated, deleted
       this.belongsTo(models.user, {
-        as: "tutorRequirements",
-        foreignKey: {
-          name: "tutr_tutor_id",
-          allowNull: true
-        },
-        onDelete: 'RESTRICT',
-        onUpdate: 'NO ACTION'
+        as: "createdBy",
+        foreignKey: "tutr_createdBy",
       });
 
-      this.belongsTo(models.s_requirement, {
-        as: "requirementRequirements",
-        foreignKey: {
-          name: "tutr_requ_id",
-          allowNull: true
-        },
-        onDelete: 'RESTRICT',
-        onUpdate: 'NO ACTION'
+      this.belongsTo(models.user, {
+        as: "updatedBy",
+        foreignKey: "tutr_updatedBy",
       });
+
+      this.belongsTo(models.user, {
+        as: "deletedBy",
+        foreignKey: "tutr_deletedBy",
+      });
+
+      // ---------------------------------
+
+
+
     }
   }
 
-  s_tutor_requirement.init({
+  t_tutor_requirement.init({
+
     tutr_id: {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4
     },
-    tutr_tutor_id: {
-      type: DataTypes.UUID
-    },
-    tutr_requ_id: {
-      type: DataTypes.UUID
+    tutr_evaluator_id: {
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id"
+      }
     },
     tutr_remarks: {
       type: DataTypes.STRING,
@@ -72,28 +76,37 @@ module.exports = (sequelize, DataTypes) => {
     },
     tutr_fileLink: {
       type: DataTypes.STRING,
-      allowNull: true,
-      validate: {
-        isUrl: true
-      }
+      allowNull: true
     },
     tutr_createdBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     },
     tutr_updatedBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     },
     tutr_deletedBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     }
   }, {
     sequelize,
-    modelName: 's_tutor_requirement',
+    modelName: 't_tutor_requirement',
     timestamps: true,
     createdAt: "tutr_createdAt",
     updatedAt: "tutr_updatedAt",
     paranoid: true,
     deletedAt: "tutr_deletedAt"
   });
-  return s_tutor_requirement;
+  return t_tutor_requirement;
 };

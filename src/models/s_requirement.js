@@ -9,6 +9,7 @@ const PROTECTED_ATTR = [""];
 // -----------------------------------------
 
 module.exports = (sequelize, DataTypes) => {
+
   class s_requirement extends Model {
 
     toJSON() {
@@ -22,27 +23,42 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
 
-      this.belongsTo(models.s_type, {
-        as: "requirementType",
-        foreignKey: {
-          name: "requ_type_id",
-          allowNull: false
-        },
-        onDelete: 'RESTRICT',
-        onUpdate: 'NO ACTION'
+      // User -> created, updated, deleted
+      this.belongsTo(models.user, {
+        as: "createdBy",
+        foreignKey: "requ_createdBy",
       });
+
+      this.belongsTo(models.user, {
+        as: "updatedBy",
+        foreignKey: "requ_updatedBy",
+      });
+
+      this.belongsTo(models.user, {
+        as: "deletedBy",
+        foreignKey: "requ_deletedBy",
+      });
+
+      // ---------------------------------
+
+      this.belongsToMany(models.user, { through: models.t_tutor_requirement, as: "requirementforUser", foreignKey: 'tutr_requ_id', otherKey: 'tutr_tutor_id' })
 
     }
   }
 
   s_requirement.init({
+
     requ_id: {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4
     },
     requ_type_id: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.s_type,
+        key: "type_id"
+      }
     },
     requ_name: {
       type: DataTypes.STRING,
@@ -53,17 +69,29 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     requ_description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true
     },
     requ_createdBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     },
     requ_updatedBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     },
     requ_deletedBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     }
   }, {
     sequelize,
