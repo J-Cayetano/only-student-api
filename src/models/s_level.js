@@ -9,6 +9,7 @@ const PROTECTED_ATTR = [""];
 // -----------------------------------------
 
 module.exports = (sequelize, DataTypes) => {
+
   class s_level extends Model {
 
     toJSON() {
@@ -22,9 +23,46 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
 
+      // User -> created, updated, deleted
+      this.belongsTo(models.user, {
+        as: "createdBy",
+        foreignKey: "leve_createdBy",
+      });
+
+      this.belongsTo(models.user, {
+        as: "updatedBy",
+        foreignKey: "leve_updatedBy",
+      });
+
+      this.belongsTo(models.user, {
+        as: "deletedBy",
+        foreignKey: "leve_deletedBy",
+      });
+
+      // ---------------------------
+
+      this.hasMany(models.user, {
+        as: "studentLevel",
+        foreignKey: {
+          name: "user_leve_id",
+          allowNull: true
+        },
+        onDelete: 'RESTRICT',
+        onUpdate: 'NO ACTION'
+      });
+
+      this.hasMany(models.s_subject, {
+        as: "subjectLevel",
+        foreignKey: {
+          name: "subj_leve_id",
+          allowNull: false
+        },
+        onDelete: 'RESTRICT',
+        onUpdate: 'NO ACTION'
+      });
+
     }
   }
-
 
   s_level.init({
     leve_id: {
@@ -41,17 +79,29 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     leve_description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true
     },
     leve_createdBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     },
     leve_updatedBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     },
     leve_deletedBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     }
   }, {
     sequelize,

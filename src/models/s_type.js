@@ -9,6 +9,7 @@ const PROTECTED_ATTR = [""];
 // -----------------------------------------
 
 module.exports = (sequelize, DataTypes) => {
+
   class s_type extends Model {
 
     toJSON() {
@@ -22,6 +23,43 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
 
+      // User -> created, updated, deleted
+      this.belongsTo(models.user, {
+        as: "createdBy",
+        foreignKey: "type_createdBy",
+      });
+
+      this.belongsTo(models.user, {
+        as: "updatedBy",
+        foreignKey: "type_updatedBy",
+      });
+
+      this.belongsTo(models.user, {
+        as: "deletedBy",
+        foreignKey: "type_deletedBy",
+      });
+
+      // ---------------------------
+
+      this.hasMany(models.user, {
+        as: "professionType",
+        foreignKey: {
+          name: 'user_type_id',
+          allowNull: true
+        },
+        onDelete: 'RESTRICT',
+        onUpdate: 'NO ACTION'
+      });
+
+      this.hasMany(models.s_requirement, {
+        as: "requirementType",
+        foreignKey: {
+          name: 'requ_type_id',
+          allowNull: false
+        },
+        onDelete: 'RESTRICT',
+        onUpdate: 'NO ACTION'
+      });
     }
   }
 
@@ -41,17 +79,29 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     type_description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true
     },
     type_createdBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     },
     type_updatedBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     },
     type_deletedBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     }
   }, {
     sequelize,

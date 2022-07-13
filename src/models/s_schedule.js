@@ -22,15 +22,24 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
 
-      this.belongsTo(models.t_class, {
-        as: "classSchedule",
-        foreignKey: {
-          name: "sche_class_id",
-          allowNull: false
-        },
-        onDelete: 'RESTRICT',
-        onUpdate: 'NO ACTION'
+      // User -> created, updated, deleted
+      this.belongsTo(models.user, {
+        as: "createdBy",
+        foreignKey: "sche_createdBy",
       });
+
+      this.belongsTo(models.user, {
+        as: "updatedBy",
+        foreignKey: "sche_updatedBy",
+      });
+
+      this.belongsTo(models.user, {
+        as: "deletedBy",
+        foreignKey: "sche_deletedBy",
+      });
+
+      // ---------------------------------
+
     }
   }
 
@@ -42,7 +51,11 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4
     },
     sche_class_id: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.t_class,
+        key: "class_id"
+      }
     },
     sche_startTime: {
       type: DataTypes.DATE,
@@ -67,17 +80,29 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     sche_description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true
     },
     sche_createdBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     },
     sche_updatedBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     },
     sche_deletedBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     }
   }, {
     sequelize,

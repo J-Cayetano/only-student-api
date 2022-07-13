@@ -22,25 +22,26 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
 
+      // User -> created, updated, deleted
       this.belongsTo(models.user, {
-        as: "studentRemarks",
-        foreignKey: {
-          name: "feed_student_id",
-          allowNull: false
-        },
-        onDelete: 'RESTRICT',
-        onUpdate: 'NO ACTION'
+        as: "createdBy",
+        foreignKey: "feed_createdBy",
       });
 
-      this.belongsTo(models.t_class, {
-        as: "classRemarks",
-        foreignKey: {
-          name: "feed_class_id",
-          allowNull: false
-        },
-        onDelete: 'RESTRICT',
-        onUpdate: 'NO ACTION'
+      this.belongsTo(models.user, {
+        as: "updatedBy",
+        foreignKey: "feed_updatedBy",
       });
+
+      this.belongsTo(models.user, {
+        as: "deletedBy",
+        foreignKey: "feed_deletedBy",
+      });
+
+      // -------------------------------
+
+
+
     }
   }
 
@@ -51,12 +52,20 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4
     },
     feed_student_id: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     },
     feed_class_id: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.t_class,
+        key: "class_id",
+      }
     },
-    type_rate: {
+    feed_rate: {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
@@ -73,13 +82,25 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     feed_createdBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     },
     feed_updatedBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     },
     feed_deletedBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     }
   }, {
     sequelize,

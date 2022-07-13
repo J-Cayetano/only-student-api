@@ -9,8 +9,7 @@ const PROTECTED_ATTR = [""];
 // -----------------------------------------
 
 module.exports = (sequelize, DataTypes) => {
-
-  class s_category extends Model {
+  class r_product_review extends Model {
 
     toJSON() {
       const attr = { ...this.get() };
@@ -26,67 +25,63 @@ module.exports = (sequelize, DataTypes) => {
       // User -> created, updated, deleted
       this.belongsTo(models.user, {
         as: "createdBy",
-        foreignKey: "cate_createdBy",
+        foreignKey: "prre_createdBy",
       });
 
       this.belongsTo(models.user, {
         as: "updatedBy",
-        foreignKey: "cate_updatedBy",
+        foreignKey: "prre_updatedBy",
       });
 
       this.belongsTo(models.user, {
         as: "deletedBy",
-        foreignKey: "cate_deletedBy",
+        foreignKey: "prre_deletedBy",
       });
 
-      // -----------------------------
+      // -------------------------------
 
-      this.hasMany(models.s_subject, {
-        as: "subjectCategory",
-        foreignKey: {
-          name: "subj_cate_id",
-          allowNull: false
-        },
-        onDelete: 'RESTRICT',
-        onUpdate: 'NO ACTION'
-      });
+
+
     }
-
   }
 
-  s_category.init({
-    cate_id: {
+  r_product_review.init({
+    prre_id: {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4
     },
-    cate_name: {
-      type: DataTypes.STRING,
+    prre_rate: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      unique: true,
       validate: {
-        notEmpty: { msg: "Category name should not be empty." }
+        isNumeric: true,
+        min: 0,
+        max: 5
       }
     },
-    cate_description: {
-      type: DataTypes.TEXT,
-      allowNull: true
+    prre_remarks: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        notEmpty: { msg: "Remarks should not be empty." }
+      }
     },
-    cate_createdBy: {
+    prre_createdBy: {
       type: DataTypes.UUID,
       references: {
         model: sequelize.user,
         key: "user_id",
       }
     },
-    cate_updatedBy: {
+    prre_updatedBy: {
       type: DataTypes.UUID,
       references: {
         model: sequelize.user,
         key: "user_id",
       }
     },
-    cate_deletedBy: {
+    prre_deletedBy: {
       type: DataTypes.UUID,
       references: {
         model: sequelize.user,
@@ -95,12 +90,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 's_category',
+    modelName: 'r_product_review',
     timestamps: true,
-    createdAt: "cate_createdAt",
-    updatedAt: "cate_updatedAt",
+    createdAt: "prre_createdAt",
+    updatedAt: "prre_updatedAt",
     paranoid: true,
-    deletedAt: "cate_deletedAt"
+    deletedAt: "prre_deletedAt"
   });
-  return s_category;
+  return r_product_review;
 };

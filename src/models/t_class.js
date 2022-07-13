@@ -22,35 +22,44 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
 
+      // User -> created, updated, deleted
       this.belongsTo(models.user, {
-        as: "studentClass",
+        as: "createdBy",
+        foreignKey: "class_createdBy",
+      });
+
+      this.belongsTo(models.user, {
+        as: "updatedBy",
+        foreignKey: "class_updatedBy",
+      });
+
+      this.belongsTo(models.user, {
+        as: "deletedBy",
+        foreignKey: "class_deletedBy",
+      });
+
+      // ---------------------------------
+
+      this.hasMany(models.r_feedback, {
+        as: "classFeedback",
         foreignKey: {
-          name: "class_student_id",
+          name: 'feed_class_id',
           allowNull: false
         },
         onDelete: 'RESTRICT',
         onUpdate: 'NO ACTION'
       });
 
-      this.belongsTo(models.user, {
-        as: "tutorClass",
+      this.hasMany(models.s_schedule, {
+        as: "classSchedule",
         foreignKey: {
-          name: "class_tutor_id",
+          name: 'sche_class_id',
           allowNull: false
         },
         onDelete: 'RESTRICT',
         onUpdate: 'NO ACTION'
-      });
+      })
 
-      this.belongsTo(models.s_subject, {
-        as: "subjectClass",
-        foreignKey: {
-          name: "class_subj_id",
-          allowNull: false
-        },
-        onDelete: 'RESTRICT',
-        onUpdate: 'NO ACTION'
-      });
     }
   }
 
@@ -61,13 +70,25 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4
     },
     class_student_id: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     },
     class_tutor_id: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     },
     class_subj_id: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.s_subject,
+        key: "subj_id",
+      }
     },
     class_name: {
       type: DataTypes.STRING,
@@ -78,7 +99,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     type_description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true
     },
     class_status: {
@@ -88,18 +109,30 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg: "Status should not be empty." }
       }
     },
-    type_description: {
+    type_price: {
       type: DataTypes.FLOAT,
-      allowNull: true
+      allowNull: false
     },
     class_createdBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     },
     class_updatedBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     },
     class_deletedBy: {
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      references: {
+        model: sequelize.user,
+        key: "user_id",
+      }
     }
   }, {
     sequelize,
