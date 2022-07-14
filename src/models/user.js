@@ -48,6 +48,26 @@ module.exports = (sequelize, DataTypes) => {
 
       // -------------------------------
 
+      this.belongsTo(models.s_level, {
+        as: "studentLevel",
+        foreignKey: {
+          name: "user_leve_id",
+          allowNull: true
+        },
+        onDelete: 'RESTRICT',
+        onUpdate: 'NO ACTION'
+      });
+
+      this.belongsTo(models.s_type, {
+        as: "professionType",
+        foreignKey: {
+          name: 'user_type_id',
+          allowNull: true
+        },
+        onDelete: 'RESTRICT',
+        onUpdate: 'NO ACTION'
+      });
+
       this.belongsToMany(models.s_requirement, {
         through: models.t_tutor_requirement,
         as: "userRequirement",

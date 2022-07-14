@@ -93,11 +93,6 @@ const authenticateToken = (req, res, next) => {
     console.log(user, err);
     if (err) return res.sendStatus(403);
     req.user = user;
-    // if (req.user.access === "admin") {
-    //     next();
-    // } else {
-    //     return res.sendStatus(403);
-    // }
     next();
   });
 };
@@ -113,9 +108,6 @@ app.use(`${process.env.BASEURL}/login`, loginRouter);
 
 // Routes (For Admin)
 app.use(`${process.env.BASEURL}/admin`, authenticateToken, adminRouter);
-
-
-
 
 
 
