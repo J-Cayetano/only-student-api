@@ -116,6 +116,7 @@ module.exports = (sequelize, DataTypes) => {
       });
 
     }
+
   }
 
   user.init({
@@ -272,5 +273,6 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
+
   return user;
 };
