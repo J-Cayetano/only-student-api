@@ -7,6 +7,7 @@ var levelRouter = require('./s_level.routes');
 var typeRouter = require('./s_type.routes');
 var userRouter = require('./user.routes');
 var categoryRouter = require('./s_category.routes');
+var scheduleRouter = require('./s_schedule.routes');
 
 
 // View
@@ -17,6 +18,10 @@ router.use('/user', userRouter);
 router.use('/level', levelRouter);
 router.use('/type', typeRouter);
 router.use('/category', categoryRouter);
+router.use('/schedule', scheduleRouter);
+
+// Routes for Transactions (For Authentication)
+
 
 
 
