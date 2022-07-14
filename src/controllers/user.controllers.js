@@ -17,34 +17,6 @@ dotenv.config();
 // Datatable
 exports.findDataTable = (req, res) => {
 
-    req.body = {
-        draw: "1",
-        columns: [
-            {
-                data: "user_fullName",
-                name: "",
-                searchable: "true",
-                orderable: "true",
-                search: {
-                    value: "",
-                    regex: "false",
-                },
-            },
-        ],
-        order: [
-            {
-                column: "0",
-                dir: "asc",
-            },
-        ],
-        start: "0",
-        length: "10",
-        search: {
-            value: "",
-            regex: "false",
-        },
-        _: "1478912938246",
-    };
     datatable(User, req.body).then((result) => {
         res.json(result);
     });
@@ -52,6 +24,7 @@ exports.findDataTable = (req, res) => {
 
 // Create and Save an Instance
 exports.create = async (req, res) => {
+
     req.body.user_fullName = "";
 
     req.body.user_createdBy = req.user.id;

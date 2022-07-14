@@ -23,7 +23,6 @@ var indexRouter = require('./src/routes/_index.routes');
 var loginRouter = require('./src/routes/login.routes');
 var adminRouter = require('./src/routes/_admin.routes');
 var evaluatorRouter = require('./src/routes/_evaluator.routes');
-var userRouter = require('./src/routes/user.routes');
 
 
 
@@ -101,13 +100,14 @@ const authenticateToken = (req, res, next) => {
 
 // ------------------------------------
 
-app.use(`${process.env.BASEURL}`, indexRouter);
+app.use(`${BASEURL}`, indexRouter);
 
 // Routes for Log In & Sign Up
-app.use(`${process.env.BASEURL}/login`, loginRouter);
+app.use(`${BASEURL}/login`, loginRouter);
 
 // Routes (For Admin)
-app.use(`${process.env.BASEURL}/admin`, authenticateToken, adminRouter);
+app.use(`${BASEURL}/admin`, authenticateToken, adminRouter);
+app.use(`${BASEURL}/evaluator`, authenticateToken, evaluatorRouter);
 
 
 
