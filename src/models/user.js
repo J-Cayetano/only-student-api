@@ -197,7 +197,12 @@ module.exports = (sequelize, DataTypes) => {
     user_fullName: {
       type: DataTypes.STRING,
       set(value) {
-        this.setDataValue("user_fullName", this.user_firstName + " " + this.user_middleName + " " + this.user_lastName);
+        if (this.user_middleName !== null) {
+          this.setDataValue("user_fullName", this.user_firstName + " " + this.user_middleName + " " + this.user_lastName);
+        } else {
+          this.setDataValue("user_fullName", this.user_firstName + " " + this.user_lastName);
+        }
+
       }
     },
     user_contactNo: {

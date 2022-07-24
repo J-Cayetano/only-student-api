@@ -168,9 +168,9 @@ exports.update = async (req, res) => {
         .then((data) => {
             if (data) {
                 User.findByPk(id, {
-                    include: ["createdBy", {
+                    include: ["updatedBy", {
                         model: db.user,
-                        as: "createdBy",
+                        as: "updatedBy",
                         attributes: ["user_id", "user_fullName", "user_access"],
                     }, "studentLevel", {
                             model: db.s_level,
@@ -182,14 +182,13 @@ exports.update = async (req, res) => {
                             attributes: ["type_id", "type_name"],
                         }
                     ]
-                })
-                    .then((data) => {
-                        res.send({
-                            error: false,
-                            data: data,
-                            message: [process.env.SUCCESS_UPDATE],
-                        });
+                }).then((data) => {
+                    res.send({
+                        error: false,
+                        data: data,
+                        message: [process.env.SUCCESS_UPDATE],
                     });
+                });
             } else {
                 res.status(500).send({
                     error: true,
@@ -210,14 +209,41 @@ exports.update = async (req, res) => {
 // Delete an Instance
 exports.delete = async (req, res) => {
     const id = req.params.id;
-    const body = { user_isActive: 0 };
+    req.body.user_isActive = 0;
     req.body.user_deletedBy = req.user.id;
+
+    await User.update(req.body, { where: { user_id: id, user_isActive: 1 }, individualHooks: true, include: ["deletedBy"] }).then(async (result) => {
+        if (data) {
+            await User.destroy({ where: { user_id: result.user_id }, include: ["deletedBy"] })
+        } else {
+            res.status(500).send({
+                error: true,
+                data: [],
+                message: ["Error in deleting record! Already deleted or record not found."]
+            });
+        }
+    })
 
     await User.destroy({ where: { user_id: id }, include: ["deletedBy"] }).then((data) => {
         User.update(body, { where: { user_id: id } })
             .then((data) => {
                 if (data) {
-                    User.findByPk(id)
+                    User.findByPk(id, {
+                        include: ["updatedBy", {
+                            model: db.user,
+                            as: "updatedBy",
+                            attributes: ["user_id", "user_fullName", "user_access"],
+                        }, "studentLevel", {
+                                model: db.s_level,
+                                as: "studentLevel",
+                                attributes: ["leve_id", "leve_name"],
+                            }, "professionType", {
+                                model: db.s_type,
+                                as: "professionType",
+                                attributes: ["type_id", "type_name"],
+                            }
+                        ]
+                    })
                         .then((data) => {
                             res.send({
                                 error: false,
