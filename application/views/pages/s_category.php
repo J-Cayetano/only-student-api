@@ -25,7 +25,17 @@
             </div>
             <!-- end page title -->
 
+
+
+
+
+
+
+
         </div> <!-- container-fluid -->
+
+
+
     </div>
     <!-- End Page-content -->
 

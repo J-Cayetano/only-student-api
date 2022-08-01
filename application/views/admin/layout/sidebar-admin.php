@@ -10,7 +10,7 @@
                 <li class="menu-title" key="t-menu">Menu</li>
 
                 <li>
-                    <a href="#" class="waves-effect">
+                    <a href="<?php echo base_url('admin') ?>" class="waves-effect">
                         <i class="bx bx-home-circle"></i><span class="badge rounded-pill bg-info float-end"></span>
                         <span key="t-dashboards">Dashboard</span>
                     </a>
@@ -33,7 +33,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="true">
                         <li><a href="#" key="">Education Level</a></li>
-                        <li><a href="#" key="">Subject Category</a></li>
+                        <li><a href="<?php echo base_url('admin/s_category') ?>" key="">Subject Category</a></li>
                         <li><a href="#" key="">Subject</a></li>
                     </ul>
                 </li>
