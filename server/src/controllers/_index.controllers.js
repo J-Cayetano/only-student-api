@@ -14,9 +14,3 @@ const Level = db.s_level;
 // -----------------------------------------
 
 
-// Index Render
-exports.index = (req, res) => {
-    res.render('index', { title: 'Only Student' });
-};
-
-

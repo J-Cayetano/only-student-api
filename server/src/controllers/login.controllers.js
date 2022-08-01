@@ -16,12 +16,6 @@ const generateToken = (data) => {
 };
 
 
-// Login Page
-exports.index = (req, res) => {
-    res.render('authentication/login');
-};
-
-
 exports.login = (req, res) => {
 
 
@@ -33,10 +27,10 @@ exports.login = (req, res) => {
         });
     } else {
 
-        User.findOne({ where: { user_email: req.body.email, user_isActive: true } })
+        User.findOne({ where: { user_email: req.body.user_email, user_isActive: true } })
             .then((data) => {
                 if (data) {
-                    bcrypt.compare(req.body.password, data.user_password, function (err, result) {
+                    bcrypt.compare(req.body.user_password, data.user_password, function (err, result) {
                         if (result) {
                             res.send({
                                 error: false,
@@ -47,7 +41,7 @@ exports.login = (req, res) => {
                                     email: data.user_email,
                                     access: data.user_access
                                 }),
-                                message: [process.env.SUCCESS_RETRIEVED],
+                                message: [process.env.SUCCESS_LOGGEDIN],
                             });
                         } else {
                             // if not equal

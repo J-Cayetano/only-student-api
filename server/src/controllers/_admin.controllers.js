@@ -12,9 +12,3 @@ const User = db.user;
 const Level = db.s_level;
 
 // -----------------------------------------
-
-
-// Sign Up Render
-exports.index = (req, res) => {
-    res.send("Hi");
-};

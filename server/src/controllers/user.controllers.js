@@ -28,6 +28,7 @@ exports.create = async (req, res) => {
     req.body.user_fullName = "";
 
     req.body.user_createdBy = req.user.id;
+    req.body.user_profilePhoto = req.file != undefined ? req.file.filename : "";
 
     if (req.body.user_access === "admin") {
         req.body.user_leve_id = null;
@@ -154,6 +155,7 @@ exports.update = async (req, res) => {
     const id = req.params.id;
     req.body.user_fullName = "";
     req.body.user_updatedBy = req.user.id;
+    req.body.user_profilePhoto = req.file != undefined ? req.file.filename : "";
 
     if (req.body.user_access === "admin") {
         req.body.user_leve_id = null;

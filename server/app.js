@@ -1,14 +1,11 @@
 // Import Packages
-var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-var logger = require('morgan');
 var dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
-const { engine } = require("express-handlebars");
 const session = require('express-session');
 const db = require('./src/models');
 
@@ -30,25 +27,19 @@ var evaluatorRouter = require('./src/routes/_evaluator.routes');
 var app = express();
 
 
-// View Engine Setup
-app.engine('.hbs', engine({ defaultLayout: 'layout', extname: '.hbs' }));
-app.set('view engine', '.hbs');
-
-
 // Request Parsing, Path Declarations
-app.use(logger('dev'));
 app.use(express.json());
 app.use(cors());
-app.use(express.urlencoded({ extended: false }));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(session({
   secret: 'secret',
   resave: true,
   saveUninitialized: true
 }));
-app.use(express.static(path.join(__dirname, 'public')));
-app.use("/public", express.static(path.join(__dirname + "/public/uploads/")));
+
+
 
 
 // Connecting to Database & Synching
@@ -99,6 +90,15 @@ const authenticateToken = (req, res, next) => {
 
 
 // ------------------------------------
+// Tester
+app.get('/', (req, res) => {
+  res.send(__dirname);
+});
+
+
+// File Upload
+app.use("/public", express.static(path.join(__dirname + "/public/uploads/")));
+app.use("/public", express.static(path.join(__dirname + "/public/files/")));
 
 app.use(`${BASEURL}`, indexRouter); // Done
 

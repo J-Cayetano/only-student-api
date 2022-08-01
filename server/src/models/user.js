@@ -183,7 +183,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
       validate: {
-        notEmpty: { msg: "Last Name should not be empty." }
+        notEmpty: { msg: "Middle Name should not be empty." }
       }
     },
     user_lastName: {

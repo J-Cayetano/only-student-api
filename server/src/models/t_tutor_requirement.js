@@ -76,7 +76,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     tutr_fileLink: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
+      get() {
+        const rawValue = this.getDataValue("tutr_fileLink");
+        return rawValue ? "http://localhost:3600/public/" + rawValue : null;
+      }
     },
     tutr_createdBy: {
       type: DataTypes.UUID,
