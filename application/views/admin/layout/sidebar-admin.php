@@ -32,9 +32,10 @@
                         <span key="t-layouts">System Setup</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="true">
-                        <li><a href="#" key="">Education Level</a></li>
+                        <li><a href="<?php echo base_url('admin/s_level') ?>" key="">Education Level</a></li>
                         <li><a href="<?php echo base_url('admin/s_category') ?>" key="">Subject Category</a></li>
-                        <li><a href="#" key="">Subject</a></li>
+                        <li><a href="<?php echo base_url('admin/s_subject') ?>" key="">Subject</a></li>
+                        <li><a href="<?php echo base_url('admin/s_type') ?>" key="">Professional Type</a></li>
                     </ul>
                 </li>
 

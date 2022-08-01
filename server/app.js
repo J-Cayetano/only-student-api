@@ -20,14 +20,15 @@ var indexRouter = require('./src/routes/_index.routes');
 var loginRouter = require('./src/routes/login.routes');
 var adminRouter = require('./src/routes/_admin.routes');
 var evaluatorRouter = require('./src/routes/_evaluator.routes');
-
+var tutorRouter = require('./src/routes/_tutor.routes');
+var studentRouter = require('./src/routes/_student.routes');
 
 
 // Initialize Express
 var app = express();
 
 
-// Request Parsing, Path Declarations
+// Request Parsing, Path Declarations, Session & Cookies
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -57,18 +58,20 @@ if (process.env.ALLOW_SYNC === "true") {
     db.sequelize
       .sync({ alter: true })
       .then(() =>
-        console.log("Done adding/updating the database based on the Models.")
+        console.log("Done adding/updating the database based on the Models through Alter.")
       );
   }
   if (process.env.SYNC_MODE === "force") {
     db.sequelize
       .sync({ force: true })
       .then(() =>
-        console.log("Done adding/updating the database based on the Models.")
+        console.log("Done adding/updating the database based on the Models through Force.")
       );
   }
 }
 
+
+// ------------- MIDDLEWARE -------------------------
 
 // Authentication Function
 const authenticateToken = (req, res, next) => {
@@ -90,6 +93,7 @@ const authenticateToken = (req, res, next) => {
 
 
 // ------------------------------------
+
 // Tester
 app.get('/', (req, res) => {
   res.send(__dirname);
@@ -97,7 +101,7 @@ app.get('/', (req, res) => {
 
 
 // File Upload
-app.use("/public", express.static(path.join(__dirname + "/public/uploads/")));
+app.use("/public", express.static(path.join(__dirname + "/public/images/")));
 app.use("/public", express.static(path.join(__dirname + "/public/files/")));
 
 app.use(`${BASEURL}`, indexRouter); // Done
