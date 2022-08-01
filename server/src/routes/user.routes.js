@@ -9,7 +9,7 @@ const helpers = require("../helpers/image.helper");
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, "../../public/uploads/"));
+        cb(null, path.join(__dirname, "../../public/images/"));
     },
 
     // By default, multer removes file extensions so let's add them back
