@@ -77,7 +77,7 @@
                         </h1>
                         <!--end::Title-->
                         <!--begin::Action-->
-                        <a href="#" class="btn btn-primary btn-pill font-weight-bold px-12 py-5">Be a Student, Register now!</a>
+                        <a href="<?php echo base_url('access/signup') ?>" class="btn btn-primary btn-pill font-weight-bold px-12 py-5">Be a Student, Register now!</a>
                         <!--end::Action-->
                     </div>
                     <!--end::Heading-->
@@ -316,7 +316,7 @@
                         <!--begin::Item-->
                         <div class="text-center">
                             <!--begin::Photo-->
-                            <div class="octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-contain bgi-position-center" style="background-image:url('<?php echo base_url('assets') ?>/media/avatars/300-5.jpg')"></div>
+                            <div class="octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-contain bgi-position-center" style="background-image:url('<?php echo base_url('assets') ?>/media/avatars/reym.jpg')"></div>
                             <!--end::Photo-->
                             <!--begin::Person-->
                             <div class="mb-0">
