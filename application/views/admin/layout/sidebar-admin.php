@@ -45,7 +45,7 @@
                         <span key="t-layouts">Account Management</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="true">
-                        <li><a href="#" key="">Admin & Staff</a></li>
+                        <li><a href="<?php echo base_url('admin/s_requirement')?>" key="">Admin & Staff</a></li>
                         <li><a href="#" key="">Evaluator</a></li>
                         <li><a href="#" key="">Tutor</a></li>
                         <li><a href="#" key="">Student</a></li>
