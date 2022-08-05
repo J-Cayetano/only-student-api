@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class admin extends CI_Controller
@@ -63,6 +64,16 @@ class admin extends CI_Controller
         $this->load->view('admin/layout/header-admin');
         $this->load->view('admin/layout/sidebar-admin');
         $this->load->view('pages/s_type');
+        $this->load->view('admin/layout/footer-admin');
+        $this->load->view('layout/foot-js');
+    }
+
+    public function s_requirement()
+    {
+        $this->load->view('layout/head-css');
+        $this->load->view('admin/layout/header-admin');
+        $this->load->view('admin/layout/sidebar-admin');
+        $this->load->view('pages/s_requirement');
         $this->load->view('admin/layout/footer-admin');
         $this->load->view('layout/foot-js');
     }
