@@ -55,13 +55,21 @@ exports.create = async (req, res) => {
 
     Level.create(req.body)
         .then((data) => {
-            Level.findByPk(data.leve_id, { include: { model: db.user, as: "createdBy", attributes: ["user_id", "user_fullName", "user_access"] } }).then((result) => {
-                res.send({
-                    error: false,
-                    data: result,
-                    message: ["Level is created successfully."],
+            Level.findByPk(data.leve_id,
+                {
+                    include:
+                    {
+                        model: db.user,
+                        as: "createdBy",
+                        attributes: ["user_id", "user_fullName", "user_access"]
+                    }
+                }).then((result) => {
+                    res.send({
+                        error: false,
+                        data: result,
+                        message: ["Level is created successfully."],
+                    });
                 });
-            });
         })
         .catch((err) => {
             res.status(500).send({

@@ -50,16 +50,18 @@
                                 <table id="datatable" class="table table-editable table-nowrap align-middle table-edits table-bordered" style="text-align: center;">
                                     <thead>
                                         <tr>
-                                            <th style="width: 500px;">Name</th>
-                                            <th>Description</th>
-                                            <th style="width: 300px">Actions</th>
+                                            <th style="width: 500px; text-align: center;">Name</th>
+                                            <th style="text-align: center;">Description</th>
+                                            <th style="width: 300px; text-align: center;">Actions</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
+
+
                                         <tr data-id="1">
-                                            <td data-field="cate_id">1</td>
-                                            <td data-field="cate_name">David McHenry</td>
+                                            <td data-field="cate_name">1</td>
+                                            <td data-field="cate_description">David McHenry</td>
                                             <td>
                                                 <a class="btn btn-outline-success btn-sm edit" title="Edit">
                                                     <i class="fas fa-pencil-alt"></i>
@@ -70,32 +72,8 @@
                                                 </button>
                                             </td>
                                         </tr>
-                                        <tr data-id="2">
-                                            <td data-field="cate_id">2</td>
-                                            <td data-field="cate_name">Tricia Briones</td>
-                                            <td>
-                                                <a class="btn btn-outline-success btn-sm edit" title="Edit">
-                                                    <i class="fas fa-pencil-alt"></i>
-                                                </a>
-                                                <div style="display: inline-block; margin-left: 10px;"></div>
-                                                <button class="btn btn-outline-danger btn-sm delete" title="Delete">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr data-id="3">
-                                            <td data-field="cate_id">3</td>
-                                            <td data-field="cate_name">Ejay Ignacio</td>
-                                            <td>
-                                                <a class="btn btn-outline-success btn-sm edit" title="Edit">
-                                                    <i class="fas fa-pencil-alt"></i>
-                                                </a>
-                                                <div style="display: inline-block; margin-left: 10px;"></div>
-                                                <button class="btn btn-outline-danger btn-sm delete" title="Delete">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
+
+
                                     </tbody>
                                 </table>
 
@@ -117,3 +95,12 @@
 
 </div>
 </body>
+
+
+<script>
+    $(document).ready(function() {
+        $('#datatable').DataTable();
+    });
+</script>
+
+</html>
