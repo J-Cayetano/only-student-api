@@ -4,6 +4,8 @@ const User = db.user;
 const Level = db.s_level;
 const datatable = require(`sequelize-datatables`);
 const { Op, where, Model } = require("sequelize");
+const seqDatatable = require('node-sequelize-datatable');
+const dataTable = require('datatables');
 
 // Messages Environment
 const dotenv = require("dotenv");
@@ -15,7 +17,7 @@ dotenv.config();
 
 
 // Datatable
-exports.findDataTable = (req, res) => {
+exports.findDataTable = async (req, res) => {
 
     datatable(User, req.body).then((result) => {
         res.json(result);
@@ -214,59 +216,83 @@ exports.delete = async (req, res) => {
     req.body.user_isActive = 0;
     req.body.user_deletedBy = req.user.id;
 
-    await User.update(req.body, { where: { user_id: id, user_isActive: 1 }, individualHooks: true, include: ["deletedBy"] }).then(async (result) => {
-        if (data) {
-            await User.destroy({ where: { user_id: result.user_id }, include: ["deletedBy"] })
-        } else {
-            res.status(500).send({
-                error: true,
-                data: [],
-                message: ["Error in deleting record! Already deleted or record not found."]
-            });
+    await User.destroy({
+        where: {
+            user_id: id
         }
+    }).then((data) => {
+        res.send({
+            error: false,
+            data: data,
+            message: [process.env.SUCCESS_DELETE],
+        })
     })
 
-    await User.destroy({ where: { user_id: id }, include: ["deletedBy"] }).then((data) => {
-        User.update(body, { where: { user_id: id } })
-            .then((data) => {
-                if (data) {
-                    User.findByPk(id, {
-                        include: ["updatedBy", {
-                            model: db.user,
-                            as: "updatedBy",
-                            attributes: ["user_id", "user_fullName", "user_access"],
-                        }, "studentLevel", {
-                                model: db.s_level,
-                                as: "studentLevel",
-                                attributes: ["leve_id", "leve_name"],
-                            }, "professionType", {
-                                model: db.s_type,
-                                as: "professionType",
-                                attributes: ["type_id", "type_name"],
-                            }
-                        ]
-                    })
-                        .then((data) => {
-                            res.send({
-                                error: false,
-                                data: data,
-                                message: [process.env.SUCCESS_DELETE],
-                            });
-                        });
-                } else {
-                    res.status(500).send({
-                        error: true,
-                        data: [],
-                        message: ["Error in deleting record."]
-                    });
-                }
-            })
-            .catch((err) => {
-                res.status(500).send({
-                    error: true,
-                    data: [],
-                    message: err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG
-                });
-            });
-    });
+    // User.update(req.body, {
+    //     where: {
+    //         user_id: id,
+    //         user_isActive: 1
+    //     },
+    //     individualHooks: true,
+    //     include: ["deletedBy"]
+    // }).then(async (result) => {
+    //     await User.destroy({
+    //         where: {
+    //             user_id: result.user_id
+    //         }
+    //     }).then((respone) => {
+    //         res.send({
+    //             error: false,
+    //             data: data,
+    //             message: [process.env.SUCCESS_DELETE],
+    //         })
+    //     })
+    // }).catch((err) => {
+    //     res.status(500).send({
+    //         error: true,
+    //         data: [],
+    //         message: err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG
+    //     });
+    // })
+
+
+    // await User.destroy({ where: { user_id: id }, include: ["deletedBy"] }).then((data) => {
+    //     User.update(body, { where: { user_id: id } })
+    //         .then((data) => {
+    //             if (data) {
+    //                 User.findByPk(id, {
+    //                     include: ["updatedBy", {
+    //                         model: db.user,
+    //                         as: "updatedBy",
+    //                         attributes: ["user_id", "user_fullName", "user_access"],
+    //                     }, "studentLevel", {
+    //                             model: db.s_level,
+    //                             as: "studentLevel",
+    //                             attributes: ["leve_id", "leve_name"],
+    //                         }, "professionType", {
+    //                             model: db.s_type,
+    //                             as: "professionType",
+    //                             attributes: ["type_id", "type_name"],
+    //                         }
+    //                     ]
+    //                 })
+    //                     .then((data) => {
+    //                         res.send({
+    //                             error: false,
+    //                             data: data,
+    //                             message: [process.env.SUCCESS_DELETE],
+    //                         });
+    //                     });
+    //             } else {
+    //                 res.status(500).send({
+    //                     error: true,
+    //                     data: [],
+    //                     message: ["Error in deleting record."]
+    //                 });
+    //             }
+    //         })
+    //         .catch((err) => {
+
+    //         });
+    // });
 };

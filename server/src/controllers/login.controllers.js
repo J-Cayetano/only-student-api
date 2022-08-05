@@ -48,7 +48,7 @@ exports.login = (req, res) => {
                             res.status(500).send({
                                 error: true,
                                 data: [],
-                                message: ["Invalid username and Password."],
+                                message: ["Invalid user credentials."],
                             });
                         }
                     }
@@ -57,7 +57,7 @@ exports.login = (req, res) => {
                     res.status(500).send({
                         error: true,
                         data: [],
-                        message: ["User Email does not exists."],
+                        message: ["User email does not exists."],
                     });
                 }
             })
