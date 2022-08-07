@@ -14,4 +14,10 @@
             </div>
         </div>
     </footer>
+
     </div>
+    <!-- end main content-->
+    </div>
+    <!-- END layout-wrapper -->
+
+    </body>

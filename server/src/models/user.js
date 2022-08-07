@@ -125,6 +125,9 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4
     },
+    user_google_id: {
+      type: DataTypes.UUID
+    },
     user_leve_id: {
       type: DataTypes.UUID,
       references: {

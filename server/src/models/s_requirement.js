@@ -63,7 +63,6 @@ module.exports = (sequelize, DataTypes) => {
     requ_name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
       validate: {
         notEmpty: { msg: "Requirement name should not be empty." }
       }

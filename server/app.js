@@ -7,21 +7,15 @@ const cors = require('cors');
 var dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
 const session = require('express-session');
+const passport = require('passport');
 const db = require('./src/models');
 
 
 // Environment Configuration
 dotenv.config();
 const BASEURL = process.env.BASEURL;
-
-
-// Import Routers
-var indexRouter = require('./src/routes/_index.routes');
-var loginRouter = require('./src/routes/login.routes');
-var adminRouter = require('./src/routes/_admin.routes');
-var evaluatorRouter = require('./src/routes/_evaluator.routes');
-var tutorRouter = require('./src/routes/_tutor.routes');
-var studentRouter = require('./src/routes/_student.routes');
+const TOKEN_SECRET = process.env.TOKEN_SECRET;
+const URI = process.env.URI;
 
 
 // Initialize Express
@@ -30,16 +24,18 @@ var app = express();
 
 // Request Parsing, Path Declarations, Session & Cookies
 app.use(express.json());
-app.use(cors());
+app.use(cors({}));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(session({
-  secret: 'secret',
+  secret: TOKEN_SECRET,
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: { secure: true }
 }));
-
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 
@@ -69,6 +65,16 @@ if (process.env.ALLOW_SYNC === "true") {
       );
   }
 }
+
+// Functions
+
+
+// Import Routers
+var loginRouter = require('./src/routes/login.routes');
+var adminRouter = require('./src/routes/_admin.routes');
+var evaluatorRouter = require('./src/routes/_evaluator.routes');
+var tutorRouter = require('./src/routes/_tutor.routes');
+var studentRouter = require('./src/routes/_student.routes');
 
 
 // ------------- MIDDLEWARE -------------------------
@@ -104,9 +110,7 @@ app.get('/', (req, res) => {
 app.use("/public", express.static(path.join(__dirname + "/public/images/")));
 app.use("/public", express.static(path.join(__dirname + "/public/files/")));
 
-app.use(`${BASEURL}`, indexRouter); // Done
-
-// Routes for Log In & Sign Up
+// Routes for Log In, Google SSO & Sign Up
 app.use(`${BASEURL}/login`, loginRouter);
 
 // Routes (For Admin)

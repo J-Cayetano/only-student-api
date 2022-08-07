@@ -11,4 +11,8 @@
 
 <script src="<?php echo base_url('assets') ?>/js/custom/utilities/modals/create-account.js"></script>
 
+<script>
+    sessionStorage.clear();
+</script>
+
 </html>

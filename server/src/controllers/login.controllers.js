@@ -3,10 +3,16 @@ const db = require("../models");
 const User = db.user;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth2').Strategy;
 
 // Messages Environment
 const dotenv = require("dotenv");
 dotenv.config();
+
+// Environment Variables
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
 // -----------------------------------------
 
@@ -72,3 +78,24 @@ exports.login = (req, res) => {
     };
 };
 
+passport.use(new GoogleStrategy({
+    clientID: GOOGLE_CLIENT_ID,
+    clientSecret: GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://localhost:3600/only-student/login/callback",
+    passReqToCallback: true
+},
+    function (request, accessToken, refreshToken, profile, done) {
+        // User.findOrCreate({ googleId: profile.id }, function (err, user) {
+        //     return done(err, user);
+        // });
+        return done(null, profile);
+    }
+));
+
+passport.serializeUser((user, done) => {
+    done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+    done(null, user);
+});

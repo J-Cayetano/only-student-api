@@ -11,12 +11,10 @@ class access extends CI_Controller
         $this->load->view('layout/footer-landing');
     }
 
-    public function signin()
+    public function signout()
     {
         $this->session->sess_destroy();
-        $this->load->view('layout/header-landing');
-        $this->load->view('access/signin');
-        $this->load->view('layout/footer-landing');
+        redirect(base_url('/'));
     }
 
     public function auth()

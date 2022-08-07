@@ -55,7 +55,8 @@
                             <!--end::Menu wrapper-->
                             <!--begin::Toolbar-->
                             <div class="flex-equal text-end ms-1">
-                                <a href="<?php echo base_url('access/signin') ?>" class="btn btn-success">Sign In here!</a>
+                                <!-- <a href="<?php echo base_url('access/signin') ?>" class="btn btn-success">Sign In here!</a> -->
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal_login">Sign in here!</button>
                             </div>
                             <!--end::Toolbar-->
                         </div>
@@ -94,6 +95,7 @@
             <!--end::Curve bottom-->
         </div>
         <!--end::Header Section-->
+
         <!--begin::How It Works Section-->
         <div class="mb-n10 mb-lg-n20 z-index-2">
             <!--begin::Container-->
@@ -104,8 +106,7 @@
                     <h3 class="fs-2hx text-dark mb-5" id="how-it-works" data-kt-scroll-offset="{default: 100, lg: 150}">How it Works</h3>
                     <!--end::Title-->
                     <!--begin::Text-->
-                    <div class="fs-5 text-muted fw-bold">Save thousands to millions of bucks by using single tool
-                        <br />for different amazing and great useful admin
+                    <div class="fs-5 text-muted fw-bold">Having hard time studying by yourself? You poor thing.
                     </div>
                     <!--end::Text-->
                 </div>
@@ -125,7 +126,7 @@
                                 <span class="badge badge-circle badge-light-success fw-bolder p-5 me-3 fs-3">1</span>
                                 <!--end::Badge-->
                                 <!--begin::Title-->
-                                <div class="fs-5 fs-lg-3 fw-bolder text-dark">Jane Miller</div>
+                                <div class="fs-5 fs-lg-3 fw-bolder text-dark">Find your Tutor and its Schedule</div>
                                 <!--end::Title-->
                             </div>
                             <!--end::Heading-->
@@ -152,7 +153,7 @@
                                 <span class="badge badge-circle badge-light-success fw-bolder p-5 me-3 fs-3">2</span>
                                 <!--end::Badge-->
                                 <!--begin::Title-->
-                                <div class="fs-5 fs-lg-3 fw-bolder text-dark">Setup Your App</div>
+                                <div class="fs-5 fs-lg-3 fw-bolder text-dark">Learn</div>
                                 <!--end::Title-->
                             </div>
                             <!--end::Heading-->
@@ -179,14 +180,12 @@
                                 <span class="badge badge-circle badge-light-success fw-bolder p-5 me-3 fs-3">3</span>
                                 <!--end::Badge-->
                                 <!--begin::Title-->
-                                <div class="fs-5 fs-lg-3 fw-bolder text-dark">Enjoy Nautica App</div>
+                                <div class="fs-5 fs-lg-3 fw-bolder text-dark">Review and Evaluate</div>
                                 <!--end::Title-->
                             </div>
                             <!--end::Heading-->
                             <!--begin::Description-->
-                            <div class="fw-bold fs-6 fs-lg-4 text-muted">Save thousands to millions of bucks
-                                <br />by using single tool for different
-                                <br />amazing and great
+                            <div class="fw-bold fs-6 fs-lg-4 text-muted">Every time the class ends, the student has a chance to rate and add reviews to their tutor. These reviews are based on the performance and how well their tutor taught them. The reviews will be shown on the tutor's profile to help future students on finding suitable tutors to teach them.
                             </div>
                             <!--end::Description-->
                         </div>
@@ -723,4 +722,70 @@
             <!--end::Svg Icon-->
         </div>
         <!--end::Scrolltop-->
+    </div>
+
+    <!-- LOGIN MODAL -->
+    <div class="modal fade" id="modal_login">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!--begin::Modal header-->
+                <div class="modal-header py-7 d-flex justify-content-between">
+                    <h2><span style="background: linear-gradient(to right, #9055FF 0%, #13E2DA 100%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;">
+                            <span>The Only Student</span>
+                        </span></h2>
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                        <span class="svg-icon svg-icon-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor" />
+                                <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor" />
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <!--end::Modal header-->
+
+
+                <!--begin::Modal body-->
+                <div class="modal-body scroll-y m-5">
+
+                    <!--begin::Form-->
+                    <form class="form w-100" novalidate="novalidate" method="POST" id="kt_sign_in_form">
+
+                        <div class=" text-center mb-10">
+                            <h1 class="text-dark mb-3">Sign In to Only Student</h1>
+                            <div class="text-gray-400 fw-bold fs-4">New Here?
+                                <a href="<?php echo (base_url('access/signup')) ?>" class="link-primary fw-bolder">Create an Account</a>
+                            </div>
+                        </div>
+
+                        <div class="fv-row mb-10">
+                            <label class="form-label fs-6 fw-bolder text-dark">Email</label>
+                            <input class="form-control form-control-lg form-control-solid" type="text" id="user_email" name="user_email" autocomplete="off" />
+                        </div>
+
+                        <div class="fv-row mb-10">
+                            <div class="d-flex flex-stack mb-2">
+                                <label class="form-label fw-bolder text-dark fs-6 mb-0">Password</label>
+                            </div>
+                            <input class="form-control form-control-lg form-control-solid" type="password" id="user_password" name="user_password" autocomplete="off" />
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" id="kt_sign_in_submit" name="kt_sign_in_submit" class="btn btn-lg btn-primary w-100 mb-5">
+                                <span class="indicator-label">Continue</span>
+                                <span class="indicator-progress">Please wait...
+                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                            </button>
+                            <div class="text-center text-muted text-uppercase fw-bolder mb-5">or</div>
+                            <a href="http://localhost:3600/only-student/login/google" class="btn btn-flex flex-center btn-light btn-lg w-100 mb-5">
+                                <img alt="Logo" src="<?php echo base_url('assets') ?>/media/svg/brand-logos/google-icon.svg" class="h-20px me-3" />Continue with Google</a>
+                        </div>
+
+
+                    </form>
+                    <!--end::Form-->
+
+                </div>
+            </div>
+        </div>
     </div>

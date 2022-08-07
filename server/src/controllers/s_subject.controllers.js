@@ -15,6 +15,35 @@ dotenv.config();
 // Datatable
 exports.findDataTable = (req, res) => {
 
+    req.body = {
+        draw: "1",
+        columns: [
+            {
+                data: "subj_name",
+                name: "",
+                searchable: "true",
+                orderable: "true",
+                search: {
+                    value: "",
+                    regex: "false",
+                },
+            },
+        ],
+        order: [
+            {
+                column: "0",
+                dir: "asc",
+            },
+        ],
+        start: "0",
+        length: "25",
+        search: {
+            value: "",
+            regex: "false",
+        },
+        _: "1478912938246",
+    };
+
     datatable(Subject, req.body).then((result) => {
         res.json(result);
     });
@@ -23,17 +52,25 @@ exports.findDataTable = (req, res) => {
 // Create and Save an Instance
 exports.create = async (req, res) => {
 
-    req.body.sche_createdBy = req.user.id;
+    req.body.subj_createdBy = req.user.id;
 
     Subject.create(req.body)
         .then((data) => {
-            Subject.findByPk(data.sche_id, { include: { model: db.user, as: "createdBy", attributes: ["user_id", "user_fullName", "user_access"] } }).then((result) => {
-                res.send({
-                    error: false,
-                    data: result,
-                    message: ["Subject is created successfully."],
+            Subject.findByPk(data.subj_id,
+                {
+                    include:
+                    {
+                        model: db.user,
+                        as: "createdBy",
+                        attributes: ["user_id", "user_fullName", "user_access"]
+                    }
+                }).then((result) => {
+                    res.send({
+                        error: false,
+                        data: result,
+                        message: ["Subject is created successfully."],
+                    });
                 });
-            });
         })
         .catch((err) => {
             res.status(500).send({
@@ -47,7 +84,7 @@ exports.create = async (req, res) => {
 // Retrieve all Instances
 exports.findAll = async (req, res) => {
 
-    Subject.findAll({ where: { sche_deletedAt: null, sche_deletedBy: null } }).then((data) => {
+    Subject.findAll({ paranoid: false }).then((data) => {
         res.send({
             error: false,
             data: data,

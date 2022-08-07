@@ -59,6 +59,7 @@ var KTSigninGeneral = function () {
                                                     }).then((function (e) {
                                                         if (e.isConfirmed) {
 
+                                                            localStorage.setItem("USER_ID", res.data.user_id);
                                                             localStorage.setItem("TOKEN", res.token);
                                                             let session_data = "";
                                                             session_data += 'token=' + res.token;
@@ -92,7 +93,8 @@ var KTSigninGeneral = function () {
                                                                     break;
                                                             }
 
-                                                            window.location.replace("./auth?" + session_data);
+                                                            console.log('HERE');
+                                                            window.location.replace("./access/auth?" + session_data);
 
 
                                                         }

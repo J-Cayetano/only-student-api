@@ -18,8 +18,9 @@
 
 <!-- Datatable init js -->
 <script src="<?php echo base_url('assets') ?>/js/pages/datatables.init.js"></script>
-
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
 
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>t
 
 </html>

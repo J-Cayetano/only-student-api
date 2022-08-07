@@ -12,6 +12,7 @@ var classRouter = require('./t_class.routes');
 var tutorRequirementRouter = require('./t_tutor_requirements.routes');
 var feedbackRouter = require('./r_feedback.routes');
 var productReviewRouter = require('./r_product_review.routes');
+var subjectRouter = require('./s_subject.routes');
 
 
 
@@ -21,6 +22,7 @@ router.use('/level', levelRouter);
 router.use('/type', typeRouter);
 router.use('/category', categoryRouter);
 router.use('/schedule', scheduleRouter);
+router.use('/subject', subjectRouter);
 
 
 // Routes for Transactions (For Authentication)

@@ -15,34 +15,6 @@ dotenv.config();
 // Datatable
 exports.findDataTable = (req, res) => {
 
-    req.body = {
-        draw: "1",
-        columns: [
-            {
-                data: "cate_name",
-                name: "",
-                searchable: "true",
-                orderable: "true",
-                search: {
-                    value: "",
-                    regex: "false",
-                },
-            },
-        ],
-        order: [
-            {
-                column: "0",
-                dir: "asc",
-            },
-        ],
-        start: "0",
-        length: "10",
-        search: {
-            value: "",
-            regex: "false",
-        },
-        _: "1478912938246",
-    };
     datatable(Category, req.body).then((result) => {
         res.json(result);
     });
@@ -55,13 +27,21 @@ exports.create = async (req, res) => {
 
     Category.create(req.body)
         .then((data) => {
-            Category.findByPk(data.cate_id, { include: { model: db.user, as: "createdBy", attributes: ["user_id", "user_fullName", "user_access"] } }).then((result) => {
-                res.send({
-                    error: false,
-                    data: result,
-                    message: ["Category is created successfully."],
+            Category.findByPk(data.cate_id,
+                {
+                    include:
+                    {
+                        model: db.user,
+                        as: "createdBy",
+                        attributes: ["user_id", "user_fullName", "user_access"]
+                    }
+                }).then((result) => {
+                    res.send({
+                        error: false,
+                        data: result,
+                        message: ["Category is created successfully."],
+                    });
                 });
-            });
         })
         .catch((err) => {
             res.status(500).send({
@@ -75,7 +55,7 @@ exports.create = async (req, res) => {
 // Retrieve all Instances
 exports.findAll = async (req, res) => {
 
-    Category.findAll({ where: { cate_deletedAt: null, cate_deletedBy: null } }).then((data) => {
+    Category.findAll({ paranoid: false }).then((data) => {
         res.send({
             error: false,
             data: data,
@@ -149,33 +129,30 @@ exports.delete = async (req, res) => {
     const id = req.params.id;
     req.body.cate_deletedBy = req.user.id;
 
-    await Category.destroy({ where: { cate_id: id } }).then((data) => {
-        Category.update(body, { where: { cate_id: id } })
-            .then((data) => {
-                if (data) {
-                    Category.findByPk(id)
-                        .then((data) => {
-                            res.send({
-                                error: false,
-                                data: data,
-                                message: [process.env.SUCCESS_DELETE],
-                            });
+    await Category.update(req.body, { where: { cate_id: id } }).then((data) => {
+        if (data) {
+            Category.findByPk(id)
+                .then(async (data) => {
+                    await Category.destroy({ where: { cate_id: data.cate_id } }).then((data) => {
+                        res.send({
+                            error: false,
+                            data: data,
+                            message: [process.env.SUCCESS_DELETE],
                         });
-                } else {
-                    res.status(500).send({
-                        error: true,
-                        data: [],
-                        message: ["Error in deleting record."]
-                    });
-                }
-            })
-            .catch((err) => {
-                res.status(500).send({
-                    error: true,
-                    data: [],
-                    message: err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG
+                    })
                 });
+        } else {
+            res.status(500).send({
+                error: true,
+                data: [],
+                message: ["Error in deleting record."]
             });
+        }
+    }).catch((err) => {
+        res.status(500).send({
+            error: true,
+            data: [],
+            message: err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG
+        });
     });
-
 };

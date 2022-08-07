@@ -76,7 +76,6 @@ module.exports = (sequelize, DataTypes) => {
     subj_name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
       validate: {
         notEmpty: { msg: "Subject name should not be empty." }
       }
