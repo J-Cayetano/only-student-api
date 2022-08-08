@@ -430,7 +430,7 @@
          <div class="modal-content">
              <!--begin::Modal header-->
              <div class="modal-header py-7 d-flex justify-content-between">
-                 <h2><span style="background: linear-gradient(to right, #9055FF 0%, #13E2DA 100%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;">
+                 <h2><span style="background: linear-gradient(to right, #9055FF 0%, #13E2DA 100%);-webkit-background-clip: text; background-clip: text;-webkit-text-fill-color: transparent;">;
                          <span>The Only Student</span>
                      </span></h2>
                  <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">

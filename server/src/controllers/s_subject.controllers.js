@@ -15,36 +15,21 @@ dotenv.config();
 // Datatable
 exports.findDataTable = (req, res) => {
 
-    req.body = {
-        draw: "1",
-        columns: [
-            {
-                data: "subj_name",
-                name: "",
-                searchable: "true",
-                orderable: "true",
-                search: {
-                    value: "",
-                    regex: "false",
-                },
-            },
-        ],
-        order: [
-            {
-                column: "0",
-                dir: "asc",
-            },
-        ],
-        start: "0",
-        length: "25",
-        search: {
-            value: "",
-            regex: "false",
-        },
-        _: "1478912938246",
-    };
-
-    datatable(Subject, req.body).then((result) => {
+    datatable(Subject, req.body, {
+        include: [{
+            model: db.user,
+            as: "createdBy",
+            attributes: ["user_id", "user_fullName", "user_access"]
+        }, {
+            model: db.s_level,
+            as: "subjectLevel",
+            attributes: ["leve_id", "leve_name", "leve_description"]
+        }, {
+            model: db.s_category,
+            as: "subjectCategory",
+            attributes: ["cate_id", "cate_name", "cate_description"]
+        }]
+    }).then((result) => {
         res.json(result);
     });
 };
@@ -58,12 +43,19 @@ exports.create = async (req, res) => {
         .then((data) => {
             Subject.findByPk(data.subj_id,
                 {
-                    include:
-                    {
+                    include: [{
                         model: db.user,
                         as: "createdBy",
                         attributes: ["user_id", "user_fullName", "user_access"]
-                    }
+                    }, {
+                        model: db.s_level,
+                        as: "subjectLevel",
+                        attributes: ["leve_id", "leve_name", "leve_description"]
+                    }, {
+                        model: db.s_category,
+                        as: "subjectCategory",
+                        attributes: ["cate_id", "cate_name", "cate_description"]
+                    }]
                 }).then((result) => {
                     res.send({
                         error: false,
@@ -84,7 +76,21 @@ exports.create = async (req, res) => {
 // Retrieve all Instances
 exports.findAll = async (req, res) => {
 
-    Subject.findAll({ paranoid: false }).then((data) => {
+    Subject.findAll({
+        paranoid: false, include: [{
+            model: db.user,
+            as: "createdBy",
+            attributes: ["user_id", "user_fullName", "user_access"]
+        }, {
+            model: db.s_level,
+            as: "subjectLevel",
+            attributes: ["leve_id", "leve_name", "leve_description"]
+        }, {
+            model: db.s_category,
+            as: "subjectCategory",
+            attributes: ["cate_id", "cate_name", "cate_description"]
+        }]
+    }).then((data) => {
         res.send({
             error: false,
             data: data,
@@ -103,13 +109,74 @@ exports.findAll = async (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Subject.findByPk(id, { include: { model: db.t_class, as: "classSubject", attributes: ["class_student_id", "class_tutor_id", "class_subj_id", "class_name"] } })
+    Subject.findByPk(id, {
+        include: [{
+            model: db.user,
+            as: "createdBy",
+            attributes: ["user_id", "user_fullName", "user_access"]
+        }, {
+            model: db.s_level,
+            as: "subjectLevel",
+            attributes: ["leve_id", "leve_name", "leve_description"]
+        }, {
+            model: db.s_category,
+            as: "subjectCategory",
+            attributes: ["cate_id", "cate_name", "cate_description"]
+        }]
+    }).then((data) => {
+        res.send({
+            error: false,
+            data: data,
+            message: [process.env.SUCCESS_RETRIEVED],
+        });
+    }).catch((err) => {
+        res.status(500).send({
+            error: true,
+            data: [],
+            message: err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG
+        });
+    });
+};
+
+// Update an Instance
+exports.update = async (req, res) => {
+    const id = req.params.id;
+    req.body.subj_updatedBy = req.user.id;
+
+    await Subject.update(req.body, {
+        where: { subj_id: id }, include: ["updatedBy"]
+    })
         .then((data) => {
-            res.send({
-                error: false,
-                data: data,
-                message: [process.env.SUCCESS_RETRIEVED],
-            });
+            if (data) {
+                Subject.findByPk(id, {
+                    include: [{
+                        model: db.user,
+                        as: "updatedBy",
+                        attributes: ["user_id", "user_fullName", "user_access"]
+                    }, {
+                        model: db.s_level,
+                        as: "subjectLevel",
+                        attributes: ["leve_id", "leve_name", "leve_description"]
+                    }, {
+                        model: db.s_category,
+                        as: "subjectCategory",
+                        attributes: ["cate_id", "cate_name", "cate_description"]
+                    }]
+                })
+                    .then((data) => {
+                        res.send({
+                            error: false,
+                            data: data,
+                            message: [process.env.SUCCESS_UPDATE],
+                        });
+                    });
+            } else {
+                res.status(500).send({
+                    error: true,
+                    data: [],
+                    message: ["Error in updating record."]
+                });
+            }
         })
         .catch((err) => {
             res.status(500).send({
@@ -120,62 +187,35 @@ exports.findOne = (req, res) => {
         });
 };
 
-// Update an Instance
-exports.update = async (req, res) => {
-    const id = req.params.id;
-    req.body.sche_updatedBy = req.user.id;
-
-    await Subject.update(req.body, { where: { sche_id: id }, include: ["updatedBy"] })
-        .then((data) => {
-            Subject.findByPk(data.sche_id, { include: { model: db.user, as: "createdBy", attributes: ["user_id", "user_fullName", "user_access"] } }).then((result) => {
-                res.send({
-                    error: false,
-                    data: result,
-                    message: ["Subject is created successfully."],
-                });
-            });
-        })
-        .catch((err) => {
-            res.status(500).send({
-                error: true,
-                data: [],
-                message: err.errors.map((e) => e.message),
-            });
-        });
-};
-
 // Delete an Instance
 exports.delete = async (req, res) => {
     const id = req.params.id;
-    req.body.sche_deletedBy = req.user.id;
+    req.body.subj_deletedBy = req.user.id;
 
-    await Subject.destroy({ where: { sche_id: id } }).then((data) => {
-        Subject.update(body, { where: { sche_id: id } })
-            .then((data) => {
-                if (data) {
-                    Subject.findByPk(id)
-                        .then((data) => {
-                            res.send({
-                                error: false,
-                                data: data,
-                                message: [process.env.SUCCESS_DELETE],
-                            });
+    await Subject.update(req.body, { where: { subj_id: id } }).then((data) => {
+        if (data) {
+            Subject.findByPk(id)
+                .then(async (data) => {
+                    await Subject.destroy({ where: { subj_id: data.subj_id } }).then((data) => {
+                        res.send({
+                            error: false,
+                            data: data,
+                            message: [process.env.SUCCESS_DELETE],
                         });
-                } else {
-                    res.status(500).send({
-                        error: true,
-                        data: [],
-                        message: ["Error in deleting record."]
-                    });
-                }
-            })
-            .catch((err) => {
-                res.status(500).send({
-                    error: true,
-                    data: [],
-                    message: err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG
+                    })
                 });
+        } else {
+            res.status(500).send({
+                error: true,
+                data: [],
+                message: ["Error in deleting record."]
             });
+        }
+    }).catch((err) => {
+        res.status(500).send({
+            error: true,
+            data: [],
+            message: err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG
+        });
     });
-
 };

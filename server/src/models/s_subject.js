@@ -50,6 +50,16 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'NO ACTION'
       });
 
+      this.belongsTo(models.s_level, {
+        as: "subjectLevel",
+        foreignKey: "subj_leve_id",
+      });
+
+      this.belongsTo(models.s_category, {
+        as: "subjectCategory",
+        foreignKey: "subj_cate_id",
+      });
+
     }
   }
 

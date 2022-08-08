@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const adminController = require("../controllers/_admin.controllers");
 
 
 // Import Routers - Setups

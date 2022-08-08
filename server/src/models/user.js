@@ -164,7 +164,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     user_password: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       validate: {
         notEmpty: true,
       }
@@ -200,7 +200,7 @@ module.exports = (sequelize, DataTypes) => {
     user_fullName: {
       type: DataTypes.STRING,
       set(value) {
-        if (this.user_middleName !== null) {
+        if (this.user_middleName != null) {
           this.setDataValue("user_fullName", this.user_firstName + " " + this.user_middleName + " " + this.user_lastName);
         } else {
           this.setDataValue("user_fullName", this.user_firstName + " " + this.user_lastName);
@@ -210,10 +210,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     user_contactNo: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       validate: {
         isNumeric: true,
-        len: [11, 11]
+        len: [11, 12]
       }
     },
     user_profilePhoto: {

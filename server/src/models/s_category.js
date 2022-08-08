@@ -63,6 +63,7 @@ module.exports = (sequelize, DataTypes) => {
     cate_name: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: false,
       validate: {
         notEmpty: { msg: "Category name should not be empty." }
       }

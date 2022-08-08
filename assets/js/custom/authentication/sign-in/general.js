@@ -93,7 +93,6 @@ var KTSigninGeneral = function () {
                                                                     break;
                                                             }
 
-                                                            console.log('HERE');
                                                             window.location.replace("./access/auth?" + session_data);
 
 

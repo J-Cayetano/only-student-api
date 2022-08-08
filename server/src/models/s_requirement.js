@@ -41,7 +41,17 @@ module.exports = (sequelize, DataTypes) => {
 
       // ---------------------------------
 
-      this.belongsToMany(models.user, { through: models.t_tutor_requirement, as: "requirementforUser", foreignKey: 'tutr_requ_id', otherKey: 'tutr_tutor_id' })
+      this.belongsToMany(models.user, {
+        through: models.t_tutor_requirement,
+        as: "requirementforUser",
+        foreignKey: 'tutr_requ_id',
+        otherKey: 'tutr_tutor_id'
+      });
+
+      this.belongsTo(models.s_type, {
+        as: "requirementType",
+        foreignKey: "requ_type_id",
+      });
 
     }
   }

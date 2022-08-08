@@ -15,7 +15,9 @@ dotenv.config();
 // Datatable
 exports.findDataTable = (req, res) => {
 
-    datatable(Schedule, req.body).then((result) => {
+    datatable(Schedule, req.body, {
+        include: []
+    }).then((result) => {
         res.json(result);
     });
 };

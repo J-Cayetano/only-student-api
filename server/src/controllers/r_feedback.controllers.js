@@ -13,10 +13,27 @@ dotenv.config();
 // -----------------------------------------
 
 
+
 // Datatable
 exports.findDataTable = (req, res) => {
 
-    datatable(Feed, req.body).then((result) => {
+    datatable(Feed, req.body, {
+        include: [{
+            include: [{
+                model: db.user,
+                as: "createdBy",
+                attributes: ["user_id", "user_fullName", "user_access"]
+            }, {
+                model: db.user,
+                as: "studentFeedback",
+                attributes: ["user_id", "user_fullName", "user_access"]
+            }, {
+                model: db.t_class,
+                as: "classFeedback",
+                attributes: ["class_name", "class_description", "class_status"]
+            }]
+        }]
+    }).then((result) => {
         res.json(result);
     });
 };
@@ -28,13 +45,28 @@ exports.create = async (req, res) => {
 
     Feed.create(req.body)
         .then((data) => {
-            Feed.findByPk(data.feed_id, { include: { model: db.user, as: "createdBy", attributes: ["user_id", "user_fullName", "user_access"] } }).then((result) => {
-                res.send({
-                    error: false,
-                    data: result,
-                    message: ["Feed is created successfully."],
+            Feed.findByPk(data.feed_id,
+                {
+                    include: [{
+                        model: db.user,
+                        as: "createdBy",
+                        attributes: ["user_id", "user_fullName", "user_access"]
+                    }, {
+                        model: db.user,
+                        as: "studentFeedback",
+                        attributes: ["user_id", "user_fullName", "user_access"]
+                    }, {
+                        model: db.t_class,
+                        as: "classFeedback",
+                        attributes: ["class_name", "class_description", "class_status"]
+                    }]
+                }).then((result) => {
+                    res.send({
+                        error: false,
+                        data: result,
+                        message: ["Product Review is created successfully."],
+                    });
                 });
-            });
         })
         .catch((err) => {
             res.status(500).send({
@@ -48,7 +80,22 @@ exports.create = async (req, res) => {
 // Retrieve all Instances
 exports.findAll = async (req, res) => {
 
-    Feed.findAll({ where: { feed_deletedAt: null, feed_deletedBy: null } }).then((data) => {
+    Feed.findAll({
+        where: { feed_deletedAt: null, feed_deletedBy: null },
+        include: [{
+            model: db.user,
+            as: "createdBy",
+            attributes: ["user_id", "user_fullName", "user_access"]
+        }, {
+            model: db.user,
+            as: "studentFeedback",
+            attributes: ["user_id", "user_fullName", "user_access"]
+        }, {
+            model: db.t_class,
+            as: "classFeedback",
+            attributes: ["class_name", "class_description", "class_status"]
+        }]
+    }).then((data) => {
         res.send({
             error: false,
             data: data,
@@ -67,7 +114,21 @@ exports.findAll = async (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Feed.findByPk(id)
+    Feed.findByPk(id, {
+        include: [{
+            model: db.user,
+            as: "createdBy",
+            attributes: ["user_id", "user_fullName", "user_access"]
+        }, {
+            model: db.user,
+            as: "studentFeedback",
+            attributes: ["user_id", "user_fullName", "user_access"]
+        }, {
+            model: db.t_class,
+            as: "classFeedback",
+            attributes: ["class_name", "class_description", "class_status"]
+        }]
+    })
         .then((data) => {
             res.send({
                 error: false,
@@ -92,7 +153,21 @@ exports.update = async (req, res) => {
     await Feed.update(req.body, { where: { feed_id: id, feed_deletedAt: null, feed_deletedBy: null }, include: ["updatedBy"] })
         .then((data) => {
             if (data) {
-                Feed.findByPk(id)
+                Feed.findByPk(id, {
+                    include: [{
+                        model: db.user,
+                        as: "updatedBy",
+                        attributes: ["user_id", "user_fullName", "user_access"]
+                    }, {
+                        model: db.user,
+                        as: "studentFeedback",
+                        attributes: ["user_id", "user_fullName", "user_access"]
+                    }, {
+                        model: db.t_class,
+                        as: "classFeedback",
+                        attributes: ["class_name", "class_description", "class_status"]
+                    }]
+                })
                     .then((data) => {
                         res.send({
                             error: false,
@@ -122,33 +197,30 @@ exports.delete = async (req, res) => {
     const id = req.params.id;
     req.body.feed_deletedBy = req.user.id;
 
-    await Feed.destroy({ where: { feed_id: id } }).then((data) => {
-        Feed.update(body, { where: { feed_id: id } })
-            .then((data) => {
-                if (data) {
-                    Feed.findByPk(id)
-                        .then((data) => {
-                            res.send({
-                                error: false,
-                                data: data,
-                                message: [process.env.SUCCESS_DELETE],
-                            });
+    await Feed.update(req.body, { where: { feed_id: id } }).then((data) => {
+        if (data) {
+            Feed.findByPk(id)
+                .then(async (data) => {
+                    await Feed.destroy({ where: { feed_id: data.feed_id } }).then((data) => {
+                        res.send({
+                            error: false,
+                            data: data,
+                            message: [process.env.SUCCESS_DELETE],
                         });
-                } else {
-                    res.status(500).send({
-                        error: true,
-                        data: [],
-                        message: ["Error in deleting record."]
-                    });
-                }
-            })
-            .catch((err) => {
-                res.status(500).send({
-                    error: true,
-                    data: [],
-                    message: err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG
+                    })
                 });
+        } else {
+            res.status(500).send({
+                error: true,
+                data: [],
+                message: ["Error in deleting record."]
             });
+        }
+    }).catch((err) => {
+        res.status(500).send({
+            error: true,
+            data: [],
+            message: err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG
+        });
     });
-
 };

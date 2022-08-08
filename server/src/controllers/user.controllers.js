@@ -4,8 +4,7 @@ const User = db.user;
 const Level = db.s_level;
 const datatable = require(`sequelize-datatables`);
 const { Op, where, Model } = require("sequelize");
-const seqDatatable = require('node-sequelize-datatable');
-const dataTable = require('datatables');
+
 
 // Messages Environment
 const dotenv = require("dotenv");
@@ -19,7 +18,13 @@ dotenv.config();
 // Datatable
 exports.findDataTable = async (req, res) => {
 
-    datatable(User, req.body).then((result) => {
+    datatable(User, req.body, {
+        include: [{
+            model: User,
+            as: "createdBy",
+            attributes: ["user_id", "user_fullName", "user_access"]
+        }]
+    }).then((result) => {
         res.json(result);
     });
 };
@@ -45,20 +50,19 @@ exports.create = async (req, res) => {
         .then((data) => {
             User.findByPk(data.user_id,
                 {
-                    include: ["createdBy", {
+                    include: [{
                         model: db.user,
                         as: "createdBy",
                         attributes: ["user_id", "user_fullName", "user_access"],
-                    }, "studentLevel", {
-                            model: db.s_level,
-                            as: "studentLevel",
-                            attributes: ["leve_id", "leve_name"],
-                        }, "professionType", {
-                            model: db.s_type,
-                            as: "professionType",
-                            attributes: ["type_id", "type_name"],
-                        }
-                    ]
+                    }, {
+                        model: db.s_level,
+                        as: "studentLevel",
+                        attributes: ["leve_id", "leve_name", "leve_description"],
+                    }, {
+                        model: db.s_type,
+                        as: "professionType",
+                        attributes: ["type_id", "type_name", "type_description"],
+                    }]
                 }
             ).then((result) => {
                 res.send({
@@ -87,20 +91,19 @@ exports.create = async (req, res) => {
 exports.findAll = async (req, res) => {
 
     User.findAll({
-        where: { user_access: { [Op.ne]: "admin" }, user_isActive: 1 }, include: ["createdBy", {
+        where: { user_access: { [Op.ne]: "" }, user_isActive: 1 }, include: [{
             model: db.user,
             as: "createdBy",
             attributes: ["user_id", "user_fullName", "user_access"],
-        }, "studentLevel", {
-                model: db.s_level,
-                as: "studentLevel",
-                attributes: ["leve_id", "leve_name"],
-            }, "professionType", {
-                model: db.s_type,
-                as: "professionType",
-                attributes: ["type_id", "type_name"],
-            }
-        ]
+        }, {
+            model: db.s_level,
+            as: "studentLevel",
+            attributes: ["leve_id", "leve_name", "leve_description"],
+        }, {
+            model: db.s_type,
+            as: "professionType",
+            attributes: ["type_id", "type_name", "type_description"],
+        }]
     }).then((data) => {
         res.send({
             error: false,
@@ -121,20 +124,19 @@ exports.findOne = (req, res) => {
     const id = req.params.id;
 
     User.findByPk(id, {
-        include: ["createdBy", {
+        include: [{
             model: db.user,
             as: "createdBy",
             attributes: ["user_id", "user_fullName", "user_access"],
-        }, "studentLevel", {
-                model: db.s_level,
-                as: "studentLevel",
-                attributes: ["leve_id", "leve_name"],
-            }, "professionType", {
-                model: db.s_type,
-                as: "professionType",
-                attributes: ["type_id", "type_name"],
-            }
-        ]
+        }, {
+            model: db.s_level,
+            as: "studentLevel",
+            attributes: ["leve_id", "leve_name", "leve_description"],
+        }, {
+            model: db.s_type,
+            as: "professionType",
+            attributes: ["type_id", "type_name", "type_description"],
+        }]
     })
         .then((data) => {
             res.send({
@@ -168,24 +170,36 @@ exports.update = async (req, res) => {
         req.body.user_leve_id = null;
     }
 
+    if (req.body.user_firstName === undefined)
+        User.findByPk(id).then((data) => {
+            req.body.user_firstName = data.user_firstName;
+        })
+    if (req.body.user_middleName === undefined)
+        User.findByPk(id).then((data) => {
+            req.body.user_middleName = data.user_middleName;
+        })
+    if (req.body.user_lastName === undefined)
+        User.findByPk(id).then((data) => {
+            req.body.user_lastName = data.user_lastName;
+        })
+
     await User.update(req.body, { where: { user_id: id, user_isActive: 1 }, individualHooks: true, include: ["updatedBy"] })
         .then((data) => {
             if (data) {
                 User.findByPk(id, {
-                    include: ["updatedBy", {
+                    include: [{
                         model: db.user,
                         as: "updatedBy",
                         attributes: ["user_id", "user_fullName", "user_access"],
-                    }, "studentLevel", {
-                            model: db.s_level,
-                            as: "studentLevel",
-                            attributes: ["leve_id", "leve_name"],
-                        }, "professionType", {
-                            model: db.s_type,
-                            as: "professionType",
-                            attributes: ["type_id", "type_name"],
-                        }
-                    ]
+                    }, {
+                        model: db.s_level,
+                        as: "studentLevel",
+                        attributes: ["leve_id", "leve_name", "leve_description"],
+                    }, {
+                        model: db.s_type,
+                        as: "professionType",
+                        attributes: ["type_id", "type_name", "type_description"],
+                    }]
                 }).then((data) => {
                     res.send({
                         error: false,
@@ -216,17 +230,38 @@ exports.delete = async (req, res) => {
     req.body.user_isActive = 0;
     req.body.user_deletedBy = req.user.id;
 
-    await User.destroy({
-        where: {
-            user_id: id
+    await User.update(req.body, { where: { user_id: id } }).then((data) => {
+        if (data) {
+            User.findByPk(id, {
+                include: [{
+                    model: User,
+                    as: "deletedBy",
+                    attributes: ["user_id", "user_fullName", "user_access"]
+                }]
+            })
+                .then(async (data) => {
+                    await User.destroy({ where: { user_id: data.user_id } }).then((data) => {
+                        res.send({
+                            error: false,
+                            data: data,
+                            message: [process.env.SUCCESS_DELETE],
+                        });
+                    })
+                });
+        } else {
+            res.status(500).send({
+                error: true,
+                data: [],
+                message: ["Error in deleting record."]
+            });
         }
-    }).then((data) => {
-        res.send({
-            error: false,
-            data: data,
-            message: [process.env.SUCCESS_DELETE],
-        })
-    })
+    }).catch((err) => {
+        res.status(500).send({
+            error: true,
+            data: [],
+            message: err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG
+        });
+    });
 
     // User.update(req.body, {
     //     where: {
