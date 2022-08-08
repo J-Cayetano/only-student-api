@@ -12,26 +12,21 @@
     <link rel="shortcut icon" href="<?php echo base_url('assets') ?>/images/favicon.ico">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
     <!-- Bootstrap Css -->
     <link href="<?php echo base_url('assets') ?>/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
     <link href="<?php echo base_url('assets') ?>/css/icons.min.css" rel="stylesheet" type="text/css" />
     <!-- App Css-->
     <link href="<?php echo base_url('assets') ?>/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <!-- Schedules -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets') ?>/libs/tui-time-picker/tui-time-picker.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets') ?>/libs/tui-date-picker/tui-date-picker.min.css">
+    <link href="<?php echo base_url('assets') ?>/libs/tui-calendar/tui-calendar.min.css" rel="stylesheet" type="text/css" />
+
     <!-- DataTables -->
     <link href="<?php echo base_url('assets') ?>/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url('assets') ?>/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 
     <!-- Responsive datatable examples -->
     <link href="<?php echo base_url('assets') ?>/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-
-
-
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets') ?>/libs/tui-time-picker/tui-time-picker.min.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets') ?>/libs/tui-date-picker/tui-date-picker.min.css">
-    <link href="<?php echo base_url('assets') ?>/libs/tui-calendar/tui-calendar.min.css" rel="stylesheet" type="text/css" />
-
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css">
 </head>

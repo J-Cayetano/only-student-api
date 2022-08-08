@@ -52,8 +52,13 @@ var KTSigninGeneral = function () {
                                             e.disabled = !0,
                                             setTimeout((function () {
                                                 e.removeAttribute("data-kt-indicator"),
-                                                    e.disabled = !1, Swal.fire({
-                                                        text: res.message, icon: "success", buttonsStyling: !1, confirmButtonText: "Ok, got it!",
+                                                    e.disabled = !1,
+
+                                                    Swal.fire({
+                                                        text: res.message,
+                                                        icon: "success",
+                                                        buttonsStyling: !1,
+                                                        confirmButtonText: "Ok, got it!",
                                                         customClass: { confirmButton: "btn btn-primary" }
 
                                                     }).then((function (e) {

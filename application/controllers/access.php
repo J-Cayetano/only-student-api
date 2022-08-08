@@ -13,6 +13,7 @@ class access extends CI_Controller
 
     public function signout()
     {
+        echo '<script>localStorage.clear();</script>';
         $this->session->sess_destroy();
         redirect(base_url('/'));
     }

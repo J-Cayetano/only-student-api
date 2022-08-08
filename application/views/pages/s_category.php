@@ -46,7 +46,7 @@
 
 
 
-                                <table id="datatable" class="table table-bordered dt-responsive align-middle nowrap" style="text-align: center;">
+                                <table id="datatable" name="categoryTable" class="table table-bordered align-middle display" style="text-align: center;">
                                     <thead>
                                         <tr>
                                             <th style="text-align: center;">Name</th>

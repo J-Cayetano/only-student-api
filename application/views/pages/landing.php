@@ -78,7 +78,7 @@
                         </h1>
                         <!--end::Title-->
                         <!--begin::Action-->
-                        <a href="<?php echo base_url('access/signup') ?>" class="btn btn-primary btn-pill font-weight-bold px-12 py-5">Be a Student, Register now!</a>
+                        <button type="button" class="btn btn-primary btn-pill font-weight-bold px-12 py-5" data-bs-toggle="modal" data-bs-target="#modal_signup">Be a Student, Register now!</button>
                         <!--end::Action-->
                     </div>
                     <!--end::Heading-->
@@ -453,7 +453,7 @@
                             <div class="d-flex align-items-center">
                                 <!--begin::Avatar-->
                                 <div class="symbol symbol-circle symbol-50px me-5">
-                                    <img src="<?php echo base_url('assets') ?>/media/avatars/300-1.jpg" class="" alt="" />
+                                    <img src="" class="" alt="" />
                                 </div>
                                 <!--end::Avatar-->
                                 <!--begin::Name-->
@@ -507,7 +507,7 @@
                             <div class="d-flex align-items-center">
                                 <!--begin::Avatar-->
                                 <div class="symbol symbol-circle symbol-50px me-5">
-                                    <img src="<?php echo base_url('assets') ?>/media/avatars/300-2.jpg" class="" alt="" />
+                                    <img src="#" class="" alt="" />
                                 </div>
                                 <!--end::Avatar-->
                                 <!--begin::Name-->
@@ -561,7 +561,7 @@
                             <div class="d-flex align-items-center">
                                 <!--begin::Avatar-->
                                 <div class="symbol symbol-circle symbol-50px me-5">
-                                    <img src="<?php echo base_url('assets') ?>/media/avatars/300-16.jpg" class="" alt="" />
+                                    <img src="" class="" alt="" />
                                 </div>
                                 <!--end::Avatar-->
                                 <!--begin::Name-->
@@ -754,7 +754,7 @@
                         <div class=" text-center mb-10">
                             <h1 class="text-dark mb-3">Sign In to Only Student</h1>
                             <div class="text-gray-400 fw-bold fs-4">New Here?
-                                <a href="<?php echo (base_url('access/signup')) ?>" class="link-primary fw-bolder">Create an Account</a>
+                                <a data-bs-toggle="modal" data-bs-target="#modal_signup" class="link-primary fw-bolder bg-hover-light-primary">Create an Account</a>
                             </div>
                         </div>
 
@@ -777,13 +777,148 @@
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                             </button>
                             <div class="text-center text-muted text-uppercase fw-bolder mb-5">or</div>
-                            <a href="http://localhost:3600/only-student/login/google" class="btn btn-flex flex-center btn-light btn-lg w-100 mb-5">
+                            <a href="http://localhost:3600/only-student/google" class="btn btn-flex flex-center btn-light btn-lg w-100 mb-5">
                                 <img alt="Logo" src="<?php echo base_url('assets') ?>/media/svg/brand-logos/google-icon.svg" class="h-20px me-3" />Continue with Google</a>
                         </div>
 
 
                     </form>
                     <!--end::Form-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIGN UP MODAL -->
+    <div class="modal fade" id="modal_signup">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!--begin::Modal header-->
+                <div class="modal-header py-7 d-flex justify-content-between">
+                    <h2><span style="background: linear-gradient(to right, #9055FF 0%, #13E2DA 100%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;">
+                            <span>The Only Student</span>
+                        </span></h2>
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                        <span class="svg-icon svg-icon-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor" />
+                                <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor" />
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <!--end::Modal header-->
+
+
+                <!--begin::Modal body-->
+                <div class="modal-body scroll-y m-5">
+
+                    <!--begin::Form-->
+                    <form class="form w-100" novalidate="novalidate" id="kt_sign_up_form">
+                        <!--begin::Heading-->
+                        <div class="mb-10 text-center">
+                            <!--begin::Title-->
+                            <h1 class="text-dark mb-3">Create an Account</h1>
+                            <!--end::Title-->
+                            <!--begin::Link-->
+                            <div class="text-gray-400 fw-bold fs-4">Already have an account?
+                                <a class="link-primary fw-bolder bg-hover-light-primary" data-bs-toggle="modal" data-bs-target="#modal_login">Sign in here</a>
+                            </div>
+                            <!--end::Link-->
+                        </div>
+                        <!--end::Heading-->
+                        <!--begin::Action-->
+                        <a href="http://localhost:3600/only-student/google" class="btn btn-light-primary fw-bolder w-100 mb-10">
+                            <img alt="Logo" src="<?php echo base_url('assets') ?>/media/svg/brand-logos/google-icon.svg" class="h-20px me-3" />Continue with Google</a>
+                        <!--end::Action-->
+                        <!--begin::Separator-->
+                        <div class="d-flex align-items-center mb-10">
+                            <div class="border-bottom border-gray-300 mw-50 w-100"></div>
+                            <span class="fw-bold text-gray-400 fs-7 mx-2">OR</span>
+                            <div class="border-bottom border-gray-300 mw-50 w-100"></div>
+                        </div>
+                        <!--end::Separator-->
+                        <!--begin::Input group-->
+                        <div class="row fv-row mb-7">
+                            <!--begin::Col-->
+                            <div class="col-xl-6">
+                                <label class="form-label fw-bolder text-dark fs-6">First Name</label>
+                                <input class="form-control form-control-lg form-control-solid" type="text" placeholder="" name="first-name" autocomplete="off" />
+                            </div>
+                            <!--end::Col-->
+                            <!--begin::Col-->
+                            <div class="col-xl-6">
+                                <label class="form-label fw-bolder text-dark fs-6">Last Name</label>
+                                <input class="form-control form-control-lg form-control-solid" type="text" placeholder="" name="last-name" autocomplete="off" />
+                            </div>
+                            <!--end::Col-->
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-7">
+                            <label class="form-label fw-bolder text-dark fs-6">Email</label>
+                            <input class="form-control form-control-lg form-control-solid" type="email" placeholder="" name="email" autocomplete="off" />
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="mb-10 fv-row" data-kt-password-meter="true">
+                            <!--begin::Wrapper-->
+                            <div class="mb-1">
+                                <!--begin::Label-->
+                                <label class="form-label fw-bolder text-dark fs-6">Password</label>
+                                <!--end::Label-->
+                                <!--begin::Input wrapper-->
+                                <div class="position-relative mb-3">
+                                    <input class="form-control form-control-lg form-control-solid" type="password" placeholder="" name="password" autocomplete="off" />
+                                    <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-kt-password-meter-control="visibility">
+                                        <i class="bi bi-eye-slash fs-2"></i>
+                                        <i class="bi bi-eye fs-2 d-none"></i>
+                                    </span>
+                                </div>
+                                <!--end::Input wrapper-->
+                                <!--begin::Meter-->
+                                <div class="d-flex align-items-center mb-3" data-kt-password-meter-control="highlight">
+                                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+                                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+                                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+                                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px"></div>
+                                </div>
+                                <!--end::Meter-->
+                            </div>
+                            <!--end::Wrapper-->
+                            <!--begin::Hint-->
+                            <div class="text-muted">Use 8 or more characters with a mix of letters, numbers &amp; symbols.</div>
+                            <!--end::Hint-->
+                        </div>
+                        <!--end::Input group=-->
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-5">
+                            <label class="form-label fw-bolder text-dark fs-6">Confirm Password</label>
+                            <input class="form-control form-control-lg form-control-solid" type="password" placeholder="" name="confirm-password" autocomplete="off" />
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-10">
+                            <label class="form-check form-check-custom form-check-solid form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="toc" value="1" />
+                                <span class="form-check-label fw-bold text-gray-700 fs-6">I Agree
+                                    <a href="#" class="ms-1 link-primary">Terms and conditions</a>.</span>
+                            </label>
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Actions-->
+                        <div class="text-center">
+                            <button type="button" id="kt_sign_up_submit" class="btn btn-lg btn-primary">
+                                <span class="indicator-label">Submit</span>
+                                <span class="indicator-progress">Please wait...
+                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                            </button>
+                        </div>
+                        <!--end::Actions-->
+                    </form>
+                    <!--end::Form-->
+
 
                 </div>
             </div>

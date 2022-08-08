@@ -8,6 +8,8 @@
     <link href="<?php echo base_url('assets') ?>/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url('assets') ?>/css/style.bundle.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url('assets') ?>/css/icons.min.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo base_url('assets') ?>/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url('assets') ?>/css/style.bundle.css" rel="stylesheet" type="text/css" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 
@@ -76,7 +78,7 @@
                                         <img src="<?= $this->session->userdata('USER_DP'); ?>" alt="user" />
                                     </div>
                                     <!--begin::User account menu-->
-                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-275px" data-kt-menu="true">
+                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-350px" data-kt-menu="true">
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-3">
                                             <div class="menu-content d-flex align-items-center px-3">
@@ -87,9 +89,9 @@
                                                 <!--end::Avatar-->
                                                 <!--begin::Username-->
                                                 <div class="d-flex flex-column">
-                                                    <div class="fw-bolder d-flex align-items-center fs-5">Max Smith
+                                                    <div class="fw-bolder d-flex align-items-center fs-5"><?= $this->session->userdata('FULL_NAME'); ?>
                                                     </div>
-                                                    <a class="fw-bold text-muted text-hover-primary fs-7"><?= $this->session->userdata('EMAIL'); ?></a>
+                                                    <a class="fw-bold text-muted d-flex align-items-center text-hover-primary fs-7"><?= $this->session->userdata('EMAIL'); ?></a>
                                                 </div>
                                                 <!--end::Username-->
                                             </div>
@@ -115,7 +117,7 @@
 
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-5">
-                                            <a href="<?= base_url('access/signout') ?>" class="menu-link px-5">Sign Out</a>
+                                            <button type="button" id="signoutBtn" class=" px-5 btn btn-danger">Sign Out</button>
                                         </div>
                                         <!--end::Menu item-->
                                         <!--begin::Menu separator-->

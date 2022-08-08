@@ -16,9 +16,52 @@
 
 <script src="<?php echo base_url('assets') ?>/js/common.js"></script>
 <script src="<?php echo base_url('assets') ?>/libs/jquery/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="<?php echo base_url('assets') ?>/js/custom/utilities/search/horizontal.js"></script>
 
+<script>
+    $(document).ready(function() {
+        console.log("Bearer " + localStorage.getItem('TOKEN'))
+        $.ajax({
+            url: 'http://localhost:3600/only-student/student/category',
+            type: 'GET',
+            contentType: 'json',
+            headers: {
+                'Authorization': "Bearer " + localStorage.getItem('TOKEN')
+            },
+            success: (res) => {
+                console.log(res.data.length);
+            },
+            error: (res) => {
+                console.log(res);
+            }
+        })
+    })
 
+
+    $("#signoutBtn").click(function() {
+        $.ajax({
+            url: 'http://localhost:3600/logout',
+            success: (res) => {
+                localStorage.clear();
+                Swal.fire({
+                    text: res.message,
+                    icon: "success",
+                    buttonsStyling: !1,
+                    confirmButtonText: "Ok, got it!",
+                    customClass: {
+                        confirmButton: "btn btn-primary"
+                    }
+
+                }).then((function(e) {
+                    if (e.isConfirmed) {
+                        window.location.replace("../access/signout")
+                    }
+                }))
+            }
+        })
+    })
+</script>
 
 
 </html>

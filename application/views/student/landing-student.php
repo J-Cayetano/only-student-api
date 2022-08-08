@@ -167,11 +167,10 @@
          <!--begin::Heading-->
          <div class="text-center mb-12">
              <!--begin::Title-->
-             <h3 class="fs-2hx text-dark mb-5" id="team" data-kt-scroll-offset="{default: 100, lg: 150}">Our Great Team</h3>
+             <h3 class="fs-2hx text-dark mb-5" id="team" data-kt-scroll-offset="{default: 100, lg: 150}">Choose a subject category.</h3>
              <!--end::Title-->
              <!--begin::Sub-title-->
-             <div class="fs-5 text-muted fw-bold">It’s no doubt that when a development takes longer to complete, additional costs to
-                 <br />integrate and test each extra feature creeps up and haunts most of us.
+             <div class="fs-5 text-muted fw-bold">You can find online tutors within the field or category of your choice.
              </div>
              <!--end::Sub-title=-->
          </div>
@@ -183,7 +182,7 @@
                  <!--begin::Item-->
                  <div class="text-center">
                      <!--begin::Photo-->
-                     <div class="octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-contain bgi-position-center" style="background-image:url('<?php echo base_url('assets') ?>/media/avatars/jc.jpg')"></div>
+                     <div class="octagon mx-auto mb-5 d-flex w-200px h-100px bgi-no-repeat bgi-size-contain bgi-position-center" style=""></div>
                      <!--end::Photo-->
                      <!--begin::Person-->
                      <div class="mb-0">
@@ -192,74 +191,6 @@
                          <!--end::Name-->
                          <!--begin::Position-->
                          <div class="text-muted fs-6 fw-bold mt-1">Development Lead</div>
-                         <!--begin::Position-->
-                     </div>
-                     <!--end::Person-->
-                 </div>
-                 <!--end::Item-->
-                 <!--begin::Item-->
-                 <div class="text-center">
-                     <!--begin::Photo-->
-                     <div class="octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-contain bgi-position-center" style="background-image:url('<?php echo base_url('assets') ?>/media/avatars/tricia.jpg')"></div>
-                     <!--end::Photo-->
-                     <!--begin::Person-->
-                     <div class="mb-0">
-                         <!--begin::Name-->
-                         <a href="#" class="text-dark fw-bolder text-hover-primary fs-3">Tricia Briones</a>
-                         <!--end::Name-->
-                         <!--begin::Position-->
-                         <div class="text-muted fs-6 fw-bold mt-1">Programmer</div>
-                         <!--begin::Position-->
-                     </div>
-                     <!--end::Person-->
-                 </div>
-                 <!--end::Item-->
-                 <!--begin::Item-->
-                 <div class="text-center">
-                     <!--begin::Photo-->
-                     <div class="octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-contain bgi-position-center" style="background-image:url('<?php echo base_url('assets') ?>/media/avatars/reym.jpg')"></div>
-                     <!--end::Photo-->
-                     <!--begin::Person-->
-                     <div class="mb-0">
-                         <!--begin::Name-->
-                         <a href="#" class="text-dark fw-bolder text-hover-primary fs-3">Reymalyn Compendio</a>
-                         <!--end::Name-->
-                         <!--begin::Position-->
-                         <div class="text-muted fs-6 fw-bold mt-1">Programmer</div>
-                         <!--begin::Position-->
-                     </div>
-                     <!--end::Person-->
-                 </div>
-                 <!--end::Item-->
-                 <!--begin::Item-->
-                 <div class="text-center">
-                     <!--begin::Photo-->
-                     <div class="octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-contain bgi-position-center" style="background-image:url('<?php echo base_url('assets') ?>/media/avatars/wil.jpg')"></div>
-                     <!--end::Photo-->
-                     <!--begin::Person-->
-                     <div class="mb-0">
-                         <!--begin::Name-->
-                         <a href="https://www.facebook.com/wilfredo.102" target="blank" class="text-dark fw-bolder text-hover-primary fs-3">Wilfredo Rumbawa</a>
-                         <!--end::Name-->
-                         <!--begin::Position-->
-                         <div class="text-muted fs-6 fw-bold mt-1">Programmer</div>
-                         <!--begin::Position-->
-                     </div>
-                     <!--end::Person-->
-                 </div>
-                 <!--end::Item-->
-                 <!--begin::Item-->
-                 <div class="text-center">
-                     <!--begin::Photo-->
-                     <div class="octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-contain bgi-position-center" style="background-image:url('<?php echo base_url('assets') ?>/media/avatars/ejay.jpg')"></div>
-                     <!--end::Photo-->
-                     <!--begin::Person-->
-                     <div class="mb-0">
-                         <!--begin::Name-->
-                         <a href="#" class="text-dark fw-bolder text-hover-primary fs-3">Ejay Ignacio</a>
-                         <!--end::Name-->
-                         <!--begin::Position-->
-                         <div class="text-muted fs-6 fw-bold mt-1">Programmer</div>
                          <!--begin::Position-->
                      </div>
                      <!--end::Person-->
