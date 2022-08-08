@@ -1,6 +1,7 @@
 // Import Packages
 const db = require("../models");
-const User = db.user;
+const Users = db.user;
+const GoogleUser = require("../models").user;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const passport = require('passport');
@@ -23,8 +24,6 @@ const generateToken = (data) => {
 
 
 exports.login = (req, res) => {
-
-
     if (String(req.body.email) === "" || String(req.body.password) === "") {
         res.status(500).send({
             error: true,
@@ -33,11 +32,12 @@ exports.login = (req, res) => {
         });
     } else {
 
-        User.findOne({ where: { user_email: req.body.user_email, user_isActive: true } })
+        Users.findOne({ where: { user_email: req.body.user_email, user_isActive: true } })
             .then((data) => {
                 if (data) {
                     bcrypt.compare(req.body.user_password, data.user_password, function (err, result) {
                         if (result) {
+
                             res.send({
                                 error: false,
                                 data: data,
@@ -49,6 +49,7 @@ exports.login = (req, res) => {
                                 }),
                                 message: [process.env.SUCCESS_LOGGEDIN],
                             });
+
                         } else {
                             // if not equal
                             res.status(500).send({
@@ -84,11 +85,47 @@ passport.use(new GoogleStrategy({
     callbackURL: "http://localhost:3600/only-student/login/callback",
     passReqToCallback: true
 },
-    function (request, accessToken, refreshToken, profile, done) {
-        // User.findOrCreate({ googleId: profile.id }, function (err, user) {
-        //     return done(err, user);
-        // });
-        return done(null, profile);
+    function (req, accessToken, refreshToken, user, profile, done) {
+
+        GoogleUser.findOne({
+            where: {
+                user_email: profile.emails[0].value,
+                user_isActive: true
+            }
+        }).then((data) => {
+            if (data) {
+                token = generateToken({
+                    id: data.user_id,
+                    name: data.user_fullName,
+                    email: data.user_email,
+                    access: data.user_access
+                })
+                // Console Testing
+                // console.log('')
+
+                return done(null, data.user_id, user)
+
+            } else {
+                GoogleUser.create({
+                    user_google_id: profile.id,
+                    user_firstName: profile.name.givenName,
+                    user_lastName: profile.name.familyName,
+                    user_fullName: "",
+                    user_email: profile.emails[0].value,
+                    user_access: "student",
+                    user_profilePhoto: profile.photos[0].value
+                }).then((data) => {
+                    token = generateToken({
+                        id: data.user_id,
+                        name: data.user_fullName,
+                        email: data.user_email,
+                        access: data.user_access
+                    })
+
+                    return done(null, data.user_id, user)
+                })
+            }
+        })
     }
 ));
 

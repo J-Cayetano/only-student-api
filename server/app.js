@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 const session = require('express-session');
 const passport = require('passport');
 const db = require('./src/models');
+const googleAuth = require('./src/controllers/login.controllers');
 
 
 // Environment Configuration
@@ -30,7 +31,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(session({
   secret: TOKEN_SECRET,
-  resave: true,
+  resave: false,
   saveUninitialized: true,
   cookie: { secure: true }
 }));
@@ -116,6 +117,7 @@ app.use(`${BASEURL}/login`, loginRouter);
 // Routes (For Admin)
 app.use(`${BASEURL}/admin`, authenticateToken, adminRouter);
 app.use(`${BASEURL}/evaluator`, authenticateToken, evaluatorRouter);
+
 
 
 
