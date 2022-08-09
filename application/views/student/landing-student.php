@@ -100,22 +100,22 @@
              <div data-tns="true" data-tns-loop="true" data-tns-swipe-angle="false" data-tns-speed="2000" data-tns-autoplay="true" data-tns-autoplay-timeout="18000" data-tns-controls="true" data-tns-nav="false" data-tns-items="1" data-tns-center="false" data-tns-dots="false" data-tns-prev-button="#kt_team_slider_prev1" data-tns-next-button="#kt_team_slider_next1">
                  <!--begin::Item-->
                  <div class="text-center px-5 pt-5 pt-lg-10 px-lg-10">
-                     <img src="<?php echo base_url('assets') ?>/media/product-demos/demo1.png" class="card-rounded shadow mw-100" alt="" />
+                     <img src="<?php echo base_url('assets') ?>/media/product-demos/demo1.jpg" class="card-rounded shadow mw-100" alt="" />
                  </div>
                  <!--end::Item-->
                  <!--begin::Item-->
                  <div class="text-center px-5 pt-5 pt-lg-10 px-lg-10">
-                     <img src="<?php echo base_url('assets') ?>/media/product-demos/demo2.png" class="card-rounded shadow mw-100" alt="" />
+                     <img src="<?php echo base_url('assets') ?>/media/product-demos/demo2.jpg" class="card-rounded shadow mw-100" alt="" />
                  </div>
                  <!--end::Item-->
                  <!--begin::Item-->
                  <div class="text-center px-5 pt-5 pt-lg-10 px-lg-10">
-                     <img src="<?php echo base_url('assets') ?>/media/product-demos/demo4.png" class="card-rounded shadow mw-100" alt="" />
+                     <img src="<?php echo base_url('assets') ?>/media/product-demos/demo3.jpg" class="card-rounded shadow mw-100" alt="" />
                  </div>
                  <!--end::Item-->
                  <!--begin::Item-->
                  <div class="text-center px-5 pt-5 pt-lg-10 px-lg-10">
-                     <img src="<?php echo base_url('assets') ?>/media/product-demos/demo5.png" class="card-rounded shadow mw-100" alt="" />
+                     <img src="<?php echo base_url('assets') ?>/media/product-demos/demo4.jpg" class="card-rounded shadow mw-100" alt="" />
                  </div>
                  <!--end::Item-->
              </div>
@@ -163,7 +163,7 @@
          <!--begin::Heading-->
          <div class="text-center mb-12">
              <!--begin::Title-->
-             <h3 class="fs-2hx text-dark mb-5" id="team" data-kt-scroll-offset="{default: 100, lg: 150}">Choose a subject category.</h3>
+             <h3 class="fs-2hx text-dark mb-5" id="team" data-kt-scroll-offset="{default: 100, lg: 150}">Choose a Subject's Category</h3>
              <!--end::Title-->
              <!--begin::Sub-title-->
              <div class="fs-5 text-muted fw-bold">You can find online tutors within the field or category of your choice.
@@ -174,24 +174,11 @@
          <!--begin::Slider-->
          <div class="tns tns-default">
              <!--begin::Wrapper-->
-             <div data-tns="true" data-tns-loop="true" data-tns-swipe-angle="false" data-tns-speed="2000" data-tns-autoplay="true" data-tns-autoplay-timeout="18000" data-tns-controls="true" data-tns-nav="false" data-tns-items="1" data-tns-center="false" data-tns-dots="false" data-tns-prev-button="#kt_team_slider_prev" data-tns-next-button="#kt_team_slider_next" data-tns-responsive="{1200: {items: 3}, 992: {items: 2}}">
+             <div data-tns="true" data-tns-loop="true" data-tns-swipe-angle="false" data-tns-speed="2000" data-tns-autoplay="true" data-tns-autoplay-timeout="18000" data-tns-controls="true" data-tns-nav="false" data-tns-items="1" data-tns-center="false" data-tns-dots="false" data-tns-prev-button="#kt_team_slider_prev" data-tns-next-button="#kt_team_slider_next" data-tns-responsive="{1200: {items: 3}, 992: {items: 2}}" id="category_holder">
                  <!--begin::Item-->
-                 <div class="text-center">
-                     <!--begin::Photo-->
-                     <div class="octagon mx-auto mb-5 d-flex w-200px h-100px bgi-no-repeat bgi-size-contain bgi-position-center" style=""></div>
-                     <!--end::Photo-->
-                     <!--begin::Person-->
-                     <div class="mb-0">
-                         <!--begin::Name-->
-                         <a href="https://www.facebook.com/johncy.cayetano/" target="blank" class="text-dark fw-bolder text-hover-primary fs-3">John Chris Cayetano</a>
-                         <!--end::Name-->
-                         <!--begin::Position-->
-                         <div class="text-muted fs-6 fw-bold mt-1">Development Lead</div>
-                         <!--begin::Position-->
-                     </div>
-                     <!--end::Person-->
-                 </div>
+
                  <!--end::Item-->
+
              </div>
              <!--end::Wrapper-->
              <!--begin::Button-->

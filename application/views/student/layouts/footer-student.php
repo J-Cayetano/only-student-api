@@ -21,21 +21,27 @@
 
 <script>
     $(document).ready(function() {
-        // console.log("Bearer " + localStorage.getItem('TOKEN'))
-        // $.ajax({
-        //     url: 'http://localhost:3600/only-student/student/category',
-        //     type: 'GET',
-        //     contentType: 'json',
-        //     headers: {
-        //         'Authorization': "Bearer " + localStorage.getItem('TOKEN')
-        //     },
-        //     success: (res) => {
-        //         console.log(res.data.length);
-        //     },
-        //     error: (res) => {
-        //         console.log(res);
-        //     }
-        // })
+        console.log("Bearer " + localStorage.getItem('TOKEN'))
+        $.ajax({
+            url: 'http://localhost:3600/only-student/student/category',
+            type: 'GET',
+            contentType: 'json',
+            headers: {
+                'Authorization': "Bearer " + localStorage.getItem('TOKEN')
+            },
+            success: (res) => {
+                html = "";
+                for (let i = 0; i < res.data.length; i++) {
+                    html += "<div class='text-center'><div class='octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-contain bgi-position-center'></div><div class='mb-0'><a href='' class='text-dark fw-bolder text-hover-primary fs-3'>John Chris Cayetano</a><div class='text-muted fs-6 fw-bold mt-1'>Development Lead</div></div></div>"
+                }
+
+                $("#category_holder").append(html);
+                console.log(res.data.length);
+            },
+            error: (res) => {
+                console.log(res);
+            }
+        })
     })
 
 
@@ -44,6 +50,7 @@
             url: 'http://localhost:3600/logout',
             success: (res) => {
                 localStorage.clear();
+
                 Swal.fire({
                     text: res.message,
                     icon: "success",
@@ -62,6 +69,5 @@
         })
     })
 </script>
-
 
 </html>
