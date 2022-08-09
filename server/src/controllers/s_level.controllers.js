@@ -3,6 +3,7 @@ const db = require("../models");
 const Level = db.s_level;
 const datatable = require(`sequelize-datatables`);
 const { Op, where } = require("sequelize");
+const sequelizeDatatable = require('node-sequelize-datatable');
 
 // Messages Environment
 const dotenv = require("dotenv");
@@ -13,36 +14,8 @@ dotenv.config();
 
 
 // Datatable
-exports.findDataTable = (req, res) => {
+exports.findDataTable = async (req, res) => {
 
-    req.body = {
-        draw: "1",
-        columns: [
-            {
-                data: "leve_name",
-                name: "",
-                searchable: "true",
-                orderable: "true",
-                search: {
-                    value: "",
-                    regex: "false",
-                },
-            },
-        ],
-        order: [
-            {
-                column: "0",
-                dir: "asc",
-            },
-        ],
-        start: "0",
-        length: "10",
-        search: {
-            value: "",
-            regex: "false",
-        },
-        _: "1478912938246",
-    };
     datatable(Level, req.body).then((result) => {
         res.json(result);
     });
@@ -83,7 +56,7 @@ exports.create = async (req, res) => {
 // Retrieve all Instances
 exports.findAll = async (req, res) => {
 
-    Level.findAll({ where: { leve_deletedAt: null, leve_deletedBy: null } }).then((data) => {
+    Level.findAll({ paranoid: false }).then((data) => {
         res.send({
             error: false,
             data: data,
@@ -157,33 +130,30 @@ exports.delete = async (req, res) => {
     const id = req.params.id;
     req.body.leve_deletedBy = req.user.id;
 
-    await Level.destroy({ where: { leve_id: id } }).then((data) => {
-        Level.update(body, { where: { leve_id: id } })
-            .then((data) => {
-                if (data) {
-                    Level.findByPk(id)
-                        .then((data) => {
-                            res.send({
-                                error: false,
-                                data: data,
-                                message: [process.env.SUCCESS_DELETE],
-                            });
+    await Level.update(req.body, { where: { leve_id: id } }).then((data) => {
+        if (data) {
+            Level.findByPk(id)
+                .then(async (data) => {
+                    await Level.destroy({ where: { leve_id: data.leve_id } }).then((data) => {
+                        res.send({
+                            error: false,
+                            data: data,
+                            message: [process.env.SUCCESS_DELETE],
                         });
-                } else {
-                    res.status(500).send({
-                        error: true,
-                        data: [],
-                        message: ["Error in deleting record."]
-                    });
-                }
-            })
-            .catch((err) => {
-                res.status(500).send({
-                    error: true,
-                    data: [],
-                    message: err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG
+                    })
                 });
+        } else {
+            res.status(500).send({
+                error: true,
+                data: [],
+                message: ["Error in deleting record."]
             });
+        }
+    }).catch((err) => {
+        res.status(500).send({
+            error: true,
+            data: [],
+            message: err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG
+        });
     });
-
 };

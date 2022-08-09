@@ -52,14 +52,20 @@ var KTSigninGeneral = function () {
                                             e.disabled = !0,
                                             setTimeout((function () {
                                                 e.removeAttribute("data-kt-indicator"),
-                                                    e.disabled = !1, Swal.fire({
-                                                        text: res.message, icon: "success", buttonsStyling: !1, confirmButtonText: "Ok, got it!",
+                                                    e.disabled = !1,
+
+                                                    Swal.fire({
+                                                        text: res.message,
+                                                        icon: "success",
+                                                        buttonsStyling: !1,
+                                                        confirmButtonText: "Ok, got it!",
                                                         customClass: { confirmButton: "btn btn-primary" }
 
                                                     }).then((function (e) {
                                                         if (e.isConfirmed) {
 
-                                                            localStorage.setItem("TOKEN", res.token);
+                                                            localStorage.setItem("USER_ID", res.data.user_id);
+
                                                             let session_data = "";
                                                             session_data += 'token=' + res.token;
                                                             session_data += '&user_access=' + res.data.user_access;
@@ -92,7 +98,7 @@ var KTSigninGeneral = function () {
                                                                     break;
                                                             }
 
-                                                            window.location.replace("./auth?" + session_data);
+                                                            window.location.replace("./access/auth?" + session_data);
 
 
                                                         }

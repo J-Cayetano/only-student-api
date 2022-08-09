@@ -60,6 +60,21 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'NO ACTION'
       })
 
+      this.belongsTo(models.user, {
+        as: "tutorClass",
+        foreignKey: "class_tutor_id",
+      });
+
+      this.belongsTo(models.user, {
+        as: "studentClass",
+        foreignKey: "class_student_id",
+      });
+
+      this.belongsTo(models.s_subject, {
+        as: "subjectClass",
+        foreignKey: "class_subj_id",
+      });
+
     }
   }
 
@@ -106,6 +121,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
       validate: {
+        isIn: {
+          args: [['On-going', 'Finished', 'Cancelled']],
+          msg: "Must be On-going, Finished, or Cancelled"
+        },
         notEmpty: { msg: "Status should not be empty." }
       }
     },

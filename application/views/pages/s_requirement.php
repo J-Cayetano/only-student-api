@@ -87,6 +87,3 @@
 
     </div>
     <!-- End Page-content -->
-
-</div>
-</body>

@@ -41,6 +41,10 @@ module.exports = (sequelize, DataTypes) => {
 
       // ---------------------------------
 
+      this.belongsTo(models.user, {
+        as: "evaluatorOfRequirement",
+        foreignKey: "tutr_evaluator_id",
+      });
 
 
     }

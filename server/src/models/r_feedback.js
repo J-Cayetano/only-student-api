@@ -40,6 +40,15 @@ module.exports = (sequelize, DataTypes) => {
 
       // -------------------------------
 
+      this.belongsTo(models.user, {
+        as: "studentFeedback",
+        foreignKey: "feed_student_id",
+      });
+
+      this.belongsTo(models.t_class, {
+        as: "classFeedback",
+        foreignKey: "feed_class_id",
+      });
 
 
     }

@@ -1,12 +1,14 @@
 // Import Packages
 const db = require("../models");
-const User = db.user;
+const Users = db.user;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-// Messages Environment
+
+// Dotenv
 const dotenv = require("dotenv");
 dotenv.config();
+
 
 // -----------------------------------------
 
@@ -17,8 +19,6 @@ const generateToken = (data) => {
 
 
 exports.login = (req, res) => {
-
-
     if (String(req.body.email) === "" || String(req.body.password) === "") {
         res.status(500).send({
             error: true,
@@ -27,11 +27,12 @@ exports.login = (req, res) => {
         });
     } else {
 
-        User.findOne({ where: { user_email: req.body.user_email, user_isActive: true } })
+        Users.findOne({ where: { user_email: req.body.user_email, user_isActive: true } })
             .then((data) => {
                 if (data) {
                     bcrypt.compare(req.body.user_password, data.user_password, function (err, result) {
                         if (result) {
+
                             res.send({
                                 error: false,
                                 data: data,
@@ -43,6 +44,7 @@ exports.login = (req, res) => {
                                 }),
                                 message: [process.env.SUCCESS_LOGGEDIN],
                             });
+
                         } else {
                             // if not equal
                             res.status(500).send({
@@ -71,4 +73,3 @@ exports.login = (req, res) => {
             });
     };
 };
-

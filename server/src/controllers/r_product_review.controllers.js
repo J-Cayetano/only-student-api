@@ -16,7 +16,13 @@ dotenv.config();
 // Datatable
 exports.findDataTable = (req, res) => {
 
-    datatable(ProductReview, req.body).then((result) => {
+    datatable(ProductReview, req.body, {
+        include: [{
+            model: db.user,
+            as: "createdBy",
+            attributes: ["user_id", "user_fullName", "user_access"]
+        }]
+    }).then((result) => {
         res.json(result);
     });
 };
@@ -28,13 +34,21 @@ exports.create = async (req, res) => {
 
     ProductReview.create(req.body)
         .then((data) => {
-            ProductReview.findByPk(data.prre_id, { include: { model: db.user, as: "createdBy", attributes: ["user_id", "user_fullName", "user_access"] } }).then((result) => {
-                res.send({
-                    error: false,
-                    data: result,
-                    message: ["Product Review is created successfully."],
+            ProductReview.findByPk(data.prre_id,
+                {
+                    include:
+                    {
+                        model: db.user,
+                        as: "createdBy",
+                        attributes: ["user_id", "user_fullName", "user_access"]
+                    }
+                }).then((result) => {
+                    res.send({
+                        error: false,
+                        data: result,
+                        message: ["Product Review is created successfully."],
+                    });
                 });
-            });
         })
         .catch((err) => {
             res.status(500).send({
@@ -122,33 +136,30 @@ exports.delete = async (req, res) => {
     const id = req.params.id;
     req.body.prre_deletedBy = req.user.id;
 
-    await ProductReview.destroy({ where: { prre_id: id } }).then((data) => {
-        ProductReview.update(body, { where: { prre_id: id } })
-            .then((data) => {
-                if (data) {
-                    ProductReview.findByPk(id)
-                        .then((data) => {
-                            res.send({
-                                error: false,
-                                data: data,
-                                message: [process.env.SUCCESS_DELETE],
-                            });
+    await ProductReview.update(req.body, { where: { prre_id: id } }).then((data) => {
+        if (data) {
+            ProductReview.findByPk(id)
+                .then(async (data) => {
+                    await ProductReview.destroy({ where: { prre_id: data.prre_id } }).then((data) => {
+                        res.send({
+                            error: false,
+                            data: data,
+                            message: [process.env.SUCCESS_DELETE],
                         });
-                } else {
-                    res.status(500).send({
-                        error: true,
-                        data: [],
-                        message: ["Error in deleting record."]
-                    });
-                }
-            })
-            .catch((err) => {
-                res.status(500).send({
-                    error: true,
-                    data: [],
-                    message: err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG
+                    })
                 });
+        } else {
+            res.status(500).send({
+                error: true,
+                data: [],
+                message: ["Error in deleting record."]
             });
+        }
+    }).catch((err) => {
+        res.status(500).send({
+            error: true,
+            data: [],
+            message: err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG
+        });
     });
-
 };

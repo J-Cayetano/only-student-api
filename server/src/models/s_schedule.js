@@ -40,6 +40,11 @@ module.exports = (sequelize, DataTypes) => {
 
       // ---------------------------------
 
+      this.belongsTo(models.t_class, {
+        as: "classSchedule",
+        foreignKey: "sche_class_id",
+      });
+
     }
   }
 

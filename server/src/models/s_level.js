@@ -73,7 +73,6 @@ module.exports = (sequelize, DataTypes) => {
     leve_name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
       validate: {
         notEmpty: { msg: "Level name should not be empty." }
       }

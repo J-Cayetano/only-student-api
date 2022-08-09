@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
     },
 });
 
-const uploadImage = (req, res, next) => {
+const uploadFile = (req, res, next) => {
 
     let upload = multer({
         storage: storage,
@@ -42,7 +42,7 @@ const uploadImage = (req, res, next) => {
             return res.status(500).send({
                 error: true,
                 data: [],
-                message: ["Please select an image for your Profile picture to upload"],
+                message: ["Please select a file to upload."],
             });
         } else if (err instanceof multer.MulterError) {
             return res.status(500).send({
@@ -68,10 +68,10 @@ const uploadImage = (req, res, next) => {
 
 
 router.get("/", tutrController.findAll);
-router.post("/", tutrController.create);
+router.post("/", uploadFile, tutrController.create);
 router.get("/table", tutrController.findDataTable);
 router.get("/:id", tutrController.findOne);
-router.put("/:id", tutrController.update);
+router.put("/:id", uploadFile, tutrController.update);
 router.delete("/:id", tutrController.delete);
 
 

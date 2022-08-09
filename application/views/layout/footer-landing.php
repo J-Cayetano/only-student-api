@@ -9,6 +9,10 @@
 <script src="<?php echo base_url('assets') ?>/js/scripts.bundle.js"></script>
 <script src="<?php echo base_url('assets') ?>/js/custom/authentication/sign-in/general.js"></script>
 
-<script src="<?php echo base_url('assets') ?>/js/custom/utilities/modals/create-account.js"></script>
+<script src="<?php echo base_url('assets') ?>/js/custom/authentication/sign-up/general.js"></script>
+
+<script>
+    sessionStorage.clear();
+</script>
 
 </html>

@@ -17,12 +17,19 @@
                 </li>
 
                 <li>
+                    <a href="<?php echo base_url('admin/profile') ?>" class="waves-effect">
+                        <i class="bx bx-user"></i><span class="badge rounded-pill bg-info float-end"></span>
+                        <span key="t-dashboards">Profile</span>
+                    </a>
+                </li>
+
+                <li>
                     <a>
                         <i class="bx bx-list-check"></i><span class="badge rounded-pill bg-info float-end"></span>
                         <span key="t-dashboards">Monitor</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="true">
-                        <li><a href="#" key="">Calendar</a></li>
+                        <li><a href="<?php echo base_url('admin/calendar') ?>" key="">Calendar</a></li>
                     </ul>
                 </li>
 
@@ -36,6 +43,7 @@
                         <li><a href="<?php echo base_url('admin/s_category') ?>" key="">Subject Category</a></li>
                         <li><a href="<?php echo base_url('admin/s_subject') ?>" key="">Subject</a></li>
                         <li><a href="<?php echo base_url('admin/s_type') ?>" key="">Professional Type</a></li>
+                        <li><a href="<?php echo base_url('admin/s_requirement') ?>" key="">Tutor Requirement</a></li>
                     </ul>
                 </li>
 
@@ -45,10 +53,10 @@
                         <span key="t-layouts">Account Management</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="true">
-                        <li><a href="<?php echo base_url('admin/s_requirement')?>" key="">Admin & Staff</a></li>
-                        <li><a href="#" key="">Evaluator</a></li>
-                        <li><a href="#" key="">Tutor</a></li>
-                        <li><a href="#" key="">Student</a></li>
+                        <li><a href="<?php echo base_url('admin/acc_admin') ?>" key="">Admin & Staff</a></li>
+                        <li><a href="<?php echo base_url('admin/acc_evaluator') ?>" key="">Evaluator</a></li>
+                        <li><a href="<?php echo base_url('admin/acc_tutor') ?>" key="">Tutor</a></li>
+                        <li><a href="<?php echo base_url('admin/acc_student') ?>" key="">Student</a></li>
                     </ul>
                 </li>
 

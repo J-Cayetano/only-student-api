@@ -15,7 +15,8 @@
     "app.js",
     "src/",
     "bin/",
-    "views/"
+    "views/",
+    "auth.js"
   ],
   "env": {
     "NODE_ENV": "development"
