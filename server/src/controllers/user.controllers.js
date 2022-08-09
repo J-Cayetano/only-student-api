@@ -33,8 +33,11 @@ exports.findDataTable = async (req, res) => {
 exports.create = async (req, res) => {
 
     req.body.user_fullName = "";
+    if (req.user != null) {
+        req.body.user_createdBy = req.user.id;
 
-    req.body.user_createdBy = req.user.id;
+    }
+
     req.body.user_profilePhoto = req.file != undefined ? req.file.filename : "";
 
     if (req.body.user_access === "admin") {

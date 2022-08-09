@@ -20,6 +20,7 @@ class access extends CI_Controller
 
     public function auth()
     {
+
         $user_access = $_GET['user_access'];
 
         if ($_GET['token'] != null) {

@@ -159,7 +159,7 @@ module.exports = (sequelize, DataTypes) => {
       unique: "email",
       validate: {
         isEmail: true,
-        notEmpty: true
+        notEmpty: true,
       }
     },
     user_password: {

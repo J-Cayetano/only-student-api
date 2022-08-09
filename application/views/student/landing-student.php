@@ -33,9 +33,7 @@
                      </div>
                      <!--end::Heading-->
                      <!--begin::Description-->
-                     <div class="fw-bold fs-6 fs-lg-4 text-muted">Save thousands to millions of bucks
-                         <br />by using single tool for different
-                         <br />amazing and great
+                     <div class="fw-bold fs-6 fs-lg-4 text-muted">In a matter of minutes, you'll have access to everything you could ever need to learn. Anything, anywhere!
                      </div>
                      <!--end::Description-->
                  </div>
@@ -60,9 +58,7 @@
                      </div>
                      <!--end::Heading-->
                      <!--begin::Description-->
-                     <div class="fw-bold fs-6 fs-lg-4 text-muted">Save thousands to millions of bucks
-                         <br />by using single tool for different
-                         <br />amazing and great
+                     <div class="fw-bold fs-6 fs-lg-4 text-muted">This is where you become a part of our enjoy while learning culture. Engaging learners with interactive videos, assessments and receiving feedbacks from our competent tutors.
                      </div>
                      <!--end::Description-->
                  </div>
@@ -250,22 +246,22 @@
                      <!--begin::Block-->
                      <div class="rounded landing-dark-border p-9 mb-10">
                          <!--begin::Title-->
-                         <h2 class="text-white">Would you need a Custom License?</h2>
+                         <h2 class="text-white">Would you need an asssistance?</h2>
                          <!--end::Title-->
                          <!--begin::Text-->
                          <span class="fw-normal fs-4 text-gray-700">Email us to
-                             <a href="https://keenthemes.com/support" class="text-white opacity-50 text-hover-primary">support@keenthemes.com</a></span>
+                             <a href="https://keenthemes.com/support" class="text-white opacity-50 text-hover-primary">only-student@support.com</a></span>
                          <!--end::Text-->
                      </div>
                      <!--end::Block-->
                      <!--begin::Block-->
                      <div class="rounded landing-dark-border p-9">
                          <!--begin::Title-->
-                         <h2 class="text-white">How About a Custom Project?</h2>
+                         <h2 class="text-white">Want to join our Only Student Community?</h2>
                          <!--end::Title-->
                          <!--begin::Text-->
-                         <span class="fw-normal fs-4 text-gray-700">Use Our Custom Development Service.
-                             <a href="../../demo1/dist/pages/user-profile/overview.html" class="text-white opacity-50 text-hover-primary">Click to Get a Quote</a></span>
+                         <span class="fw-normal fs-4 text-gray-700">Visit our page: www.only-student.com/community
+                         </span>
                          <!--end::Text-->
                      </div>
                      <!--end::Block-->
@@ -328,7 +324,7 @@
                      </a>
                      <!--end::Logo image-->
                      <!--begin::Logo image-->
-                     <span class="mx-5 fs-6 fw-bold text-gray-600 pt-1" href="https://keenthemes.com">© 2022 Only Student Inc.</span>
+                     <span class="mx-5 fs-6 fw-bold text-gray-600 pt-1">© 2022 Only Student Inc.</span>
                      <!--end::Logo image-->
                  </div>
                  <!--end::Copyright-->

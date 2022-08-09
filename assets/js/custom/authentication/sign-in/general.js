@@ -65,7 +65,7 @@ var KTSigninGeneral = function () {
                                                         if (e.isConfirmed) {
 
                                                             localStorage.setItem("USER_ID", res.data.user_id);
-                                                            localStorage.setItem("TOKEN", res.token);
+
                                                             let session_data = "";
                                                             session_data += 'token=' + res.token;
                                                             session_data += '&user_access=' + res.data.user_access;

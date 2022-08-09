@@ -11,6 +11,10 @@
     <link href="<?php echo base_url('assets') ?>/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url('assets') ?>/css/style.bundle.css" rel="stylesheet" type="text/css" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <script>
+        localStorage.setItem("TOKEN", "<?= $this->session->userdata('TOKEN'); ?> ");
+    </script>
 </head>
 
 <body id="home" data-bs-spy="scroll" data-bs-target="#kt_landing_menu" data-bs-offset="200" class="bg-white position-relative">
@@ -59,7 +63,7 @@
                                         <!--begin::Menu item-->
                                         <div class="menu-item">
                                             <!--begin::Menu link-->
-                                            <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#team" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Class</a>
+                                            <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#team" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Subjects</a>
                                             <!--end::Menu link-->
                                         </div>
                                         <!--end::Menu item-->
@@ -144,7 +148,8 @@
                 <div class="d-flex flex-column flex-center w-100 min-h-350px min-h-lg-500px px-9">
 
 
-                    <h1 style="color: white;">INSERT SEARCH BAR HERE</h1>
+                    <h1 style="color: white;">INSERT</h1>
+
                 </div>
                 <!--end::Landing -->
 

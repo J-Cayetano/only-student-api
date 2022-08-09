@@ -30,9 +30,9 @@ function isLoggedIn(req, res, next) {
 
 // Request Parsing, Path Declarations, Session & Cookies
 app.use(express.json());
-app.use(cors({}));
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({
   secret: "google_secret",
@@ -76,6 +76,7 @@ if (process.env.ALLOW_SYNC === "true") {
 
 // Import Routers
 var loginRouter = require('./src/routes/login.routes');
+var signupRouter = require('./src/routes/signup.routes');
 var adminRouter = require('./src/routes/_admin.routes');
 var evaluatorRouter = require('./src/routes/_evaluator.routes');
 var tutorRouter = require('./src/routes/_tutor.routes');
@@ -127,7 +128,7 @@ app.get('/callback',
 
 app.get('/googleRedirect', isLoggedIn, (req, res) => {
 
-  res.redirect('http://localhost/only-student/access/auth?token=' + token + '&user_access=student&user_firstName=' + req.user.given_name + '&user_lastName=' + req.user.family_name + '&user_fullName=' + req.user.displayName + '&user_email=' + req.user.email + '&user_picture=' + req.user.picture);
+  res.redirect('http://localhost/only-student/access/auth?token=' + token + '&user_access=student&user_firstName=' + req.user.given_name + '&user_lastName=' + req.user.family_name + '&user_fullName=' + req.user.displayName + '&user_email=' + req.user.email + '&user_picture=' + req.user.picture + '&fromGoogle=true');
 
 });
 
@@ -154,6 +155,7 @@ app.use("/public", express.static(path.join(__dirname + "/public/files/")));
 
 // Routes for Log In, Google SSO & Sign Up
 app.use(`${BASEURL}/login`, loginRouter);
+app.use(`${BASEURL}/signup`, signupRouter);
 
 // Routes (For Admin)
 app.use(`${BASEURL}/admin`, authenticateToken, adminRouter);

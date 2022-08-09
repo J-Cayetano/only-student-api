@@ -21,21 +21,21 @@
 
 <script>
     $(document).ready(function() {
-        console.log("Bearer " + localStorage.getItem('TOKEN'))
-        $.ajax({
-            url: 'http://localhost:3600/only-student/student/category',
-            type: 'GET',
-            contentType: 'json',
-            headers: {
-                'Authorization': "Bearer " + localStorage.getItem('TOKEN')
-            },
-            success: (res) => {
-                console.log(res.data.length);
-            },
-            error: (res) => {
-                console.log(res);
-            }
-        })
+        // console.log("Bearer " + localStorage.getItem('TOKEN'))
+        // $.ajax({
+        //     url: 'http://localhost:3600/only-student/student/category',
+        //     type: 'GET',
+        //     contentType: 'json',
+        //     headers: {
+        //         'Authorization': "Bearer " + localStorage.getItem('TOKEN')
+        //     },
+        //     success: (res) => {
+        //         console.log(res.data.length);
+        //     },
+        //     error: (res) => {
+        //         console.log(res);
+        //     }
+        // })
     })
 
 
