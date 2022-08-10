@@ -160,6 +160,7 @@ app.use(`${BASEURL}/signup`, signupRouter);
 // Routes (For Admin)
 app.use(`${BASEURL}/admin`, authenticateToken, adminRouter);
 app.use(`${BASEURL}/evaluator`, authenticateToken, evaluatorRouter);
+app.use(`${BASEURL}/tutor`, authenticateToken, tutorRouter);
 app.use(`${BASEURL}/student`, authenticateToken, studentRouter);
 
 

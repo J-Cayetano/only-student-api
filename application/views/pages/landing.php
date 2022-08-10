@@ -278,8 +278,6 @@
                         <div class="text-center">
                             <!--begin::Photo-->
                             <div class="octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-contain bgi-position-center" style="background-image:url('<?php echo base_url('assets') ?>/media/avatars/jc.jpg')"></div>
-                            <!--end::Photo-->
-                            <!--begin::Person-->
                             <div class="mb-0">
                                 <!--begin::Name-->
                                 <a href="https://www.facebook.com/johncy.cayetano/" target="blank" class="text-dark fw-bolder text-hover-primary fs-3">John Chris Cayetano</a>
@@ -399,7 +397,7 @@
                 <!--begin::Heading-->
                 <div class="text-center mb-17">
                     <!--begin::Title-->
-                    <h3 class="fs-2hx text-dark mb-5" id="clients" data-kt-scroll-offset="{default: 125, lg: 150}">What Our Student Say</h3>
+                    <h3 class="fs-2hx text-dark mb-5" id="clients" data-kt-scroll-offset="{default: 125, lg: 150}">What Our Students Say</h3>
                     <!--end::Title-->
                     <!--begin::Description-->
                     <div class="fs-5 text-muted fw-bold">Your education is important to us
@@ -428,7 +426,7 @@
                                         <i class="bi bi-star-fill fs-5"></i>
                                     </div>
                                     <div class="rating-label me-2 checked">
-                                        <i class="bi bi-star fs-5"></i>
+                                        <i class="bi bi-star-fill fs-5"></i>
                                     </div>
                                     <div class="rating-label me-2 checked">
                                         <i class="bi bi-star-fill fs-5"></i>
@@ -449,7 +447,7 @@
                             <div class="d-flex align-items-center">
                                 <!--begin::Avatar-->
                                 <div class="symbol symbol-circle symbol-50px me-5">
-                                    <img src="" class="" alt="" />
+                                    <img src="<?php echo base_url('assets') ?>/media/avatars/blank.png" class="" alt="" />
                                 </div>
                                 <!--end::Avatar-->
                                 <!--begin::Name-->
@@ -503,7 +501,7 @@
                             <div class="d-flex align-items-center">
                                 <!--begin::Avatar-->
                                 <div class="symbol symbol-circle symbol-50px me-5">
-                                    <img src="#" class="" alt="" />
+                                    <img src="<?php echo base_url('assets') ?>/media/avatars/blank.png" class="" alt="" />
                                 </div>
                                 <!--end::Avatar-->
                                 <!--begin::Name-->
@@ -557,7 +555,7 @@
                             <div class="d-flex align-items-center">
                                 <!--begin::Avatar-->
                                 <div class="symbol symbol-circle symbol-50px me-5">
-                                    <img src="" class="" alt="" />
+                                    <img src="<?php echo base_url('assets') ?>/media/avatars/blank.png" class="" alt="" />
                                 </div>
                                 <!--end::Avatar-->
                                 <!--begin::Name-->
